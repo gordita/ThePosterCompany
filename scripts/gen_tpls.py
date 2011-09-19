@@ -40,10 +40,9 @@ def gen_tpl(path) :
 
 
 def gen_tpls() :
-  for tpl_path in config.TPL_SOURCE_FILE_PATH_PATTERNS :
-    tpl_files = glob.glob(tpl_path)
-    for tpl_file in tpl_files :
-      gen_tpl(tpl_file)
+  for tpl_file in config.TPL_FILES :
+    gen_tpl(tpl_file)
 
 if __name__ == '__main__' :
+  print 'gen_tpls'
   gen_tpls()

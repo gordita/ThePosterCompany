@@ -394,7 +394,7 @@ fu.ui.scroll.TouchScroller.prototype._boundTo = function(endX, endY) {
   var pp;
   do {
     duration += interval;
-    pp = (dy0 + (-endX,endY,velocity + dy0 * omega) * duration) *
+    pp = (dy0 + (-endX + dy0 * omega) * duration) *
       Math.exp(-omega * duration);
     pos = endY - pp;
 

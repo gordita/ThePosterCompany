@@ -1,30 +1,49 @@
+import glob
+import helper
 import sys
 
-# Workaround to import web module.
-APPLICATION_PATH = 'application/'
-sys.path.append(APPLICATION_PATH)
+COMPILED = 1
+USE_EMBED_IMAGE = 0
 
-from app.web import webconfig
-
-# COMPILED = webconfig.COMPILED
-COMPILED = False
-RESOURCE_ROOT = 'application/resource'
-
-BUILD_INFO_DIR = 'build_info'
+# Tools
+CSS_COMPRESSOR_PATH = '~/Documents/yui-libs/yuicompressor-2.4.6/build/yuicompressor-2.4.6.jar'
 GENJSDEPS_BUILDER_PATH = '~/Documents/google-libs/closure-lib/closure/bin/calcdeps.py'
-JS_DEPS_OUTPUT_DIR = RESOURCE_ROOT + '/deps'
+JS_COMPILER_PATH = '~/Documents/google-libs/jsc/compiler.jar'
 TPL_COMPILER_PATH = 'application/resource/soy-lib/SoyToJsSrcCompiler.jar'
 
+
+
+# DIR
+APPLICATION_DIR = 'application/'
+BUILD_INFO_DIR = 'build_info'
+RESOURCE_DIR = APPLICATION_DIR + 'resource'
+JS_DEPS_OUTPUT_DIR = RESOURCE_DIR + '/deps'
+JS_BIN_DIR = APPLICATION_DIR + 'bin/js'
+CSS_BIN_DIR = APPLICATION_DIR + 'bin/css'
+
+# PATH
+WEB_CONFIG_FILE_PATH = APPLICATION_DIR + 'app/web/config.py'
+JS_DEPS_BIN_PATH = DEPS_OUTPUT = JS_DEPS_OUTPUT_DIR + '/bin-deps-list.txt'
+JS_DEPS_DEBUG_PATH = DEPS_OUTPUT = JS_DEPS_OUTPUT_DIR + '/debug-deps.js'
+
+
+
+# DIRS
 JS_SOURCES_DIRS = [
   'fu',
-  'demos',
+  'demo',
   'closure-lib/closure',
   'closure-lib/third_party',
   'soy-lib',
   ]
 
-TPL_SOURCE_FILE_PATH_PATTERNS = [
-  RESOURCE_ROOT + '/demos/*.tpl'
-  ]
+# Files
+TPL_FILES = glob.glob(RESOURCE_DIR + '/demos/*.tpl')
+
+DEMO_JS_FILES = helper.filter(glob.glob(RESOURCE_DIR + '/demo/*.js'), '.tpl')
+
+DEMO_CSS_FILES = glob.glob(RESOURCE_DIR + '/css/demo.css')
+
+EXTERN_JS_FILES = glob.glob(RESOURCE_DIR + '/externs/*.js')
 
 

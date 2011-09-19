@@ -1,4 +1,4 @@
-application: mytouchface
+application: thepostercompany
 version: 1
 runtime: python
 api_version: 1
@@ -18,7 +18,7 @@ handlers:
 
 - url: /bin
   secure: always
-  static_dir: build
+  static_dir: bin
 
 - url: /.*
   secure: always

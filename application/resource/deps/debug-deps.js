@@ -6,8 +6,8 @@ goog.addDependency("../../../fu/events/eventtype.js", ['fu.events.EventType'], [
 goog.addDependency("../../../fu/events/touchevent.js", ['fu.events.TouchEvent'], ['goog.events.Event', 'goog.math.Size', 'fu.env.client']);
 goog.addDependency("../../../fu/ui/scroll/scrollable.js", ['fu.ui.scroll.Scrollable'], []);
 goog.addDependency("../../../fu/ui/scroll/touchscroller.js", ['fu.ui.scroll.TouchScroller', 'fu.ui.scroll.TouchScrollerMovingContext'], ['goog.asserts', 'goog.dom', 'goog.math', 'goog.events.EventHandler', 'goog.events.EventTarget', 'goog.math.Coordinate', 'fu.env.client', 'fu.env.name', 'fu.events.EventType', 'fu.events.TouchEvent', 'fu.ui.scroll.Scrollable']);
-goog.addDependency("../../../demos/scroller.js", ['demos.scroller'], ['demos.scroller.tpl', 'fu.ui.scroll.TouchScroller', 'soy']);
-goog.addDependency("../../../demos/scroller.tpl.js", ['demos.scroller.tpl'], ['soy', 'soy.StringBuilder']);
+goog.addDependency("../../../demo/scroller.js", ['demo.scroller'], ['demo.scroller.tpl', 'fu.ui.scroll.TouchScroller', 'soy']);
+goog.addDependency("../../../demo/scroller.tpl.js", ['demo.scroller.tpl'], ['soy', 'soy.StringBuilder']);
 goog.addDependency("base.js", [], []);
 goog.addDependency("deps.js", [], []);
 goog.addDependency("array/array.js", ['goog.array', 'goog.array.ArrayLike'], ['goog.asserts']);
