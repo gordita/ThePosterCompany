@@ -303,9 +303,9 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
     var dy = ctx.currentTouchCoord.y - ctx.lastTouchCoord.y;
     var dt = ctx.currentTime - ctx.previousTime;
     if (this._y < ctx.minY) {
-      this._boundTo(0, ctx.minY);
+      this._bounceTo(0, ctx.minY);
     } else if (this._y > ctx.maxY) {
-      this._boundTo(0, ctx.maxY);
+      this._bounceTo(0, ctx.maxY);
     } else {
       var v;
       v = (dy / dt) || 1;
@@ -362,7 +362,7 @@ fu.ui.scroll.TouchScroller.prototype._decelerateTo = function(startX, startY,
  * @param {number} endX
  * @param {number} endY
  */
-fu.ui.scroll.TouchScroller.prototype._boundTo = function(endX, endY) {
+fu.ui.scroll.TouchScroller.prototype._bounceTo = function(endX, endY) {
   var velocity = (this._y / fu.ui.scroll.TouchScroller.TAU);
   velocity = velocity *
     Math.min(1, fu.ui.scroll.TouchScroller.MAX_VELOCITY / Math.abs(velocity));
@@ -443,9 +443,9 @@ fu.ui.scroll.TouchScroller.prototype._onTransitionEnd = function() {
   if (this._moveContext.animating) {
     var ctx = this._moveContext;
     if (this._y < ctx.minY) {
-      this._boundTo(this._x, ctx.minY);
+      this._bounceTo(this._x, ctx.minY);
     } else if (this._y > ctx.maxY) {
-      this._boundTo(this._x, ctx.maxY);
+      this._bounceTo(this._x, ctx.maxY);
     } else {
       this._clearTransition();
     }
