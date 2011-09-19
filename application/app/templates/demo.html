@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <title>{{file_name}}</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="viewport"
+        content="initial-scale=1.0, width=device-width,
+        height=device-height, minimum-scale=1.0, maximum-scale=1.0,
+        user-scalable=no"/>
+  {% if compiled %}
+  <link href="/bin/css/demo.css" type="text/css" rel="stylesheet"/>
+  {% else %}
+  <link href="/resource/css/demo.css" type="text/css" rel="stylesheet"/>
+  {% endif %}
+</head>
+<body>
+<div id="doc"></div>
+{% if compiled %}
+<script src="/bin/js/{{file_name}}.js"></script>
+{% else %}
+<script src="/resource/closure-lib/closure/goog/base.js"></script>
+<script src="/resource/deps/debug-deps.js"></script>
+<script>goog.require('demo.{{file_name}}');</script>
+{% endif %}
+<script>start()</script>
+</body>
+</html>
+

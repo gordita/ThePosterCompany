@@ -1,0 +1,50 @@
+body {
+  font: 13px/150% arial;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+}
+
+#scroller {
+  position: relative;
+  outline: solid 1px #fff;
+  outline-offset: -1px;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  max-width: 320px;
+}
+
+#scroller .body {
+  padding: 10px;
+}
+
+#scroller img {
+  float: left;
+  margin: 0 10px 10px 0;
+  width: 150px;
+  height: 150px;
+}
+
+#scroller #logo {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6px;
+  border-radius: 5px;
+  z-index: 10000;
+  -webkit-box-shadow: 0 2px 3px #aaa;
+}
+
+#scroller .unit {
+  margin: 12px;
+  padding: 12px;
+  border: solid 1px #ccc;
+  border-radius: 6px;
+  background: #fff;
+}
