@@ -220,22 +220,12 @@ fu.ui.scroll.TouchScroller.prototype._waitStart = function() {
 
 /**
  * @param {goog.events.BrowserEvent} evt
- * @return {boolean}
- */
-fu.ui.scroll.TouchScroller.prototype._onEvent = function(evt) {
-  var be = evt.getBrowserEvent();
-  return !!be['defaultPrevented'];
-};
-
-
-/**
- * @param {goog.events.BrowserEvent} evt
  * @private
  */
 fu.ui.scroll.TouchScroller.prototype._onStart = function(evt) {
   this._clearTransition();
 
-  if (this._onEvent(evt)) {
+  if (fu.events.isPrevented(evt)) {
     return;
   }
 
@@ -265,7 +255,7 @@ fu.ui.scroll.TouchScroller.prototype._onStart = function(evt) {
  * @private
  */
 fu.ui.scroll.TouchScroller.prototype._onMove = function(evt) {
-  if (this._onEvent(evt)) {
+  if (fu.events.isPrevented(evt)) {
     return;
   }
   var coord = fu.events.getTouchPagePosition(evt);
