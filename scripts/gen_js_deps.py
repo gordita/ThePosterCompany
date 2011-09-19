@@ -14,6 +14,10 @@ def gen_base_cmd() :
   return cmd
 
 
+def gen_js_bin_deps() :
+  pass
+
+
 def gen_js_debug_deps() :
   output_path = config.JS_DEPS_OUTPUT_DIR + '/debug-deps.js'
   output_str = ('-o deps > %s ' % output_path)

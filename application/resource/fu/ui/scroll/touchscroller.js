@@ -488,7 +488,7 @@ fu.ui.scroll.TouchScroller.prototype._getTransitionPosition = function() {
 
 /**
  *
- * @param @param {goog.events.BrowserEvent} evt
+ * @param {goog.events.BrowserEvent} evt
  * @return {goog.math.Coordinate}
  */
 fu.ui.scroll.TouchScroller.prototype._getTouchCoord = function(evt) {
