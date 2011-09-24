@@ -1,5 +1,6 @@
 import config
 import os
+import sys
 
 def write_text(path, text) :
   file = open(path, 'w')
@@ -9,6 +10,10 @@ def write_text(path, text) :
 
 def get_file_text(path) :
   return ''.join(get_file_lines(path))
+
+
+def get_file_name(path) :
+  return path[path.rfind('/') + 1 :]
 
 
 def get_files_text(paths) :
@@ -64,3 +69,14 @@ def get_build_info_file(path) :
   if not os.path.exists(path) :
     write_text(path, 'new')
   return path
+
+
+def should_compile(compiled = False) :
+  for arg in sys.argv :
+    if arg.find('-') is 0 :
+      if arg == '-c' or arg == '-c=1':
+        return True
+      if arg == '-c=0' :
+        return False
+      raise Exception('Unknown param %s' % arg)
+  return compiled

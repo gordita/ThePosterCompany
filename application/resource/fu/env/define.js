@@ -26,3 +26,8 @@ fu.env.define.USE_WEBKIT_CSS2D = false;
  * @define {boolean}
  */
 fu.env.define.USE_WEBKIT_TRANSITION = true;
+
+/**
+ * @define {boolean}
+ */
+fu.env.define.ENABLE_HIDE_ADDRESSBAR = true;

@@ -48,3 +48,15 @@ body {
   border-radius: 6px;
   background: #fff;
 }
+
+.test-block {
+  margin: 10px;
+  outline: solid 1px red;
+  padding: 10px;
+}
+
+.CSS_FULL_VIEW_LAYOUT {
+  background: rgba(255, 255, 255, 0.8);
+  outline: solid 1px blue;
+  outline-offset: -1px;
+}

@@ -31,7 +31,10 @@ def demo(request, file_name) :
 
   payload = {
     'file_name' : file_name,
-    'compiled' : config.COMPILED
+    'compiled' : config.COMPILED,
+    'css_files' : config.CSS_FILES,
+    'demo_css_files' : config.DEMO_CSS_FILES
+    # 'css_files' : config.
   }
   return templateView('demo', payload)
 

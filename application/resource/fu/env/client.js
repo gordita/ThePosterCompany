@@ -57,3 +57,11 @@ fu.env.client.USE_WEBKIT_TRANSITION = fu.env.define.USE_WEBKIT_TRANSITION ||
  */
 fu.env.client.IS_IOS = fu.env.define.IS_IOS ||
   (/iphone|ipad|ipod/ig).test(fu.env.client._uaString);
+
+
+/**
+ * @const
+ * @type {boolean}
+ */
+fu.env.client.ENABLE_HIDE_ADDRESSBAR = fu.env.define.ENABLE_HIDE_ADDRESSBAR ||
+  fu.env.client.IS_IOS;

@@ -3,35 +3,29 @@ import helper
 import os
 
 
-def gen_base_cmd() :
+def gen_base_cmd(module_files) :
   sources_str = ' '.join([
   '-p %s/%s' % (config.RESOURCE_DIR, res) for res in
   config.JS_SOURCES_DIRS
   ])
 
-  demo_modules_input_str = '\n'.join([
-  '-i %s ' % demo_file for demo_file in config.DEMO_JS_FILES
+  modules_input_str = '\n'.join([
+  '-i %s ' % module_file for module_file in module_files
   ])
-  demo_files = config.DEMO_JS_FILES
-  for demo_file in demo_files :
-    print demo_file
 
   cmd = '%s %s %s' % (
     config.GENJSDEPS_BUILDER_PATH,
     sources_str,
-    demo_modules_input_str)
+    modules_input_str)
   return cmd
 
 
-def gen_js_bin_deps() :
-  output_path = config.JS_DEPS_BIN_PATH
+def gen_js_bin_deps(target_name, module_files) :
+  output_path = '%s/%s.txt' % (config.JS_DEPS_OUTPUT_DIR, target_name)
   output_str = ('-o list > %s ' % output_path)
-  cmd = gen_base_cmd() + output_str
+  cmd = gen_base_cmd(module_files) + output_str
   print cmd
   os.system(cmd)
-
-  modules = config.DEMO_JS_FILES
-
   lines = helper.get_file_lines(output_path)
   new_lines = []
   idx = 0
@@ -40,7 +34,7 @@ def gen_js_bin_deps() :
     line = line.strip()
     new_lines.append('--js %s' % line)
     idx = idx + 1
-    if line in modules :
+    if line in module_files :
       module_name = helper.get_module_name(line)
       if last_module_name is None :
         new_lines.append('--module %s:%s' % (module_name, idx))
@@ -56,14 +50,17 @@ def gen_js_bin_deps() :
 def gen_js_debug_deps() :
   output_path = config.JS_DEPS_DEBUG_PATH
   output_str = ('-o deps > %s ' % output_path)
-  cmd = gen_base_cmd() + output_str
+  cmd = gen_base_cmd([]) + output_str
   print cmd
   os.system(cmd)
 
 if __name__ == '__main__' :
   os.system('clear')
   print 'gen_js_deps'
-  if config.COMPILED :
-    gen_js_bin_deps()
+  if helper.should_compile(config.DEFAULT_COMPILED):
+    for target in config.JS_BIN_TARGETS :
+      target_name = target[0]
+      target_modules = target[1]
+      gen_js_bin_deps(target_name, target_modules)
   else :
     gen_js_debug_deps()

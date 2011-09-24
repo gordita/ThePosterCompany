@@ -1,18 +1,24 @@
 goog.provide('demo.scroller');
 
-goog.require('demo.scroller.tpl');
+
+
+goog.require('fu.env.define');
 goog.require('fu.ui.scroll.TouchScroller');
+goog.require('goog.dom');
+goog.require('goog.events.EventHandler');
 goog.require('soy');
+goog.require('tpl.fu.CSSNames');
+goog.require('tpl.demo.scroller');
 
 /**
  * Start
  */
 demo.scroller.start = function() {
   var doc = document.getElementById('doc');
-  doc.appendChild(soy.renderAsFragment(demo.scroller.tpl.html));
+  doc.appendChild(soy.renderAsFragment(tpl.demo.scroller.html));
 
-  var scroller = document.getElementById('scroller');
-  var content = document.getElementById('content');
+  var scroller = goog.dom.getElement('scroller');
+  var content = goog.dom.getElement('content');
   var frag = document.createDocumentFragment();
   var n = 0;
 
@@ -34,11 +40,13 @@ demo.scroller.start = function() {
     scroller.style.height = h + 'px';
   };
 
-  document.addEventListener('touchstart', blockEvent, false);
-  document.addEventListener('touchmove', blockEvent, false);
-  document.addEventListener('resize', resize, false);
-  document.addEventListener('orientationchange', resize, false);
-  document.addEventListener('touchstart', resize, false);
+  var handler = new goog.events.EventHandler();
+  handler.listen(document, 'touchstart', blockEvent, false)
+  handler.listen(document, 'touchstart', blockEvent, false);
+  handler.listen(document, 'touchmove', blockEvent, false);
+  handler.listen(document, 'resize', resize, false);
+  handler.listen(document, 'orientationchange', resize, false);
+  handler.listen(document, 'touchstart', resize, false);
 
   resize();
   new fu.ui.scroll.TouchScroller(scroller);

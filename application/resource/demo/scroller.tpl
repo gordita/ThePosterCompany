@@ -1,4 +1,4 @@
-{namespace demo.scroller.tpl}
+{namespace tpl.demo.scroller}
 
 /**
 * Template.

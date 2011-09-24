@@ -8,9 +8,11 @@
         height=device-height, minimum-scale=1.0, maximum-scale=1.0,
         user-scalable=no"/>
   {% if compiled %}
-  <link href="/bin/css/demo.css" type="text/css" rel="stylesheet"/>
+  <link href="/bin/css/all.css" type="text/css" rel="stylesheet"/>
   {% else %}
-  <link href="/resource/css/demo.css" type="text/css" rel="stylesheet"/>
+  {% for name in demo_css_files %}
+  <link href="{{name}}" type="text/css" rel="stylesheet"/>
+  {% endfor %}
   {% endif %}
 </head>
 <body>

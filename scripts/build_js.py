@@ -9,8 +9,6 @@ EXTERN_FLAGS = [
 for extern_file in config.EXTERN_JS_FILES
 ]
 
-
-
 DEFAULT_FLAGS = EXTERN_FLAGS + [
   '--define=goog.userAgent.ASSUME_WEBKIT',
   #  '--define=hw.config.BUILD_TIME=%s' % round(time.time()),
@@ -52,12 +50,13 @@ DEBUG_FLAGS = DEFAULT_FLAGS + [
   '--compilation_level=WHITESPACE_ONLY'
 ]
 
-def build_js(flags) :
+def build_js(target_name, flags) :
+  input_path = '%s/%s.txt' % (config.JS_DEPS_OUTPUT_DIR, target_name)
   flags_text = ''.join(['%s \\\n' % str(flag) for flag in flags])
   cmd = 'java -jar %s %s %s ' % (
     config.JS_COMPILER_PATH,
     flags_text,
-    ' \\\n'.join(helper.get_file_lines(config.JS_DEPS_BIN_PATH))
+    ' \\\n'.join(helper.get_file_lines(input_path))
     )
   print cmd
   os.system(cmd)
@@ -65,5 +64,11 @@ def build_js(flags) :
 if __name__ == '__main__' :
   os.system('clear')
   print 'build_js'
-  build_js(PROD_DEFAULT_FLAGS)
-  os.system('ls -al %s' % config.JS_BIN_DIR)
+  if helper.should_compile(config.DEFAULT_COMPILED):
+    for target in config.JS_BIN_TARGETS :
+      target_name = target[0]
+      target_modules = target[1]
+      build_js(target_name, PROD_DEFAULT_FLAGS)
+    os.system('ls -al %s' % config.JS_BIN_DIR)
+  else :
+    print 'COMPILED is not True. Skip build JS'
