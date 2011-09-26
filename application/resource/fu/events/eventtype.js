@@ -1,7 +1,7 @@
 goog.provide('fu.events.EventType');
 
 goog.require('goog.events');
-goog.require('fu.env.client');
+goog.require('fu.env.runtime');
 
 
 /**
@@ -10,21 +10,25 @@ goog.require('fu.env.client');
  */
 fu.events.EventType = {
   // Touch events
-  TOUCHSTART : fu.env.client.USE_TOUCH ? 'touchstart' : 'mousedown',
-  TOUCHEND : fu.env.client.USE_TOUCH ? 'touchend' : 'mouseup',
-  TOUCHCANCEL : fu.env.client.USE_TOUCH ? 'touchcancel' : 'mouseup',
-  TOUCHMOVE : fu.env.client.USE_TOUCH ? 'touchmove' : 'mousemove',
+  TOUCHSTART : fu.env.runtime.USE_TOUCH ? 'touchstart' : 'mousedown',
+  TOUCHEND : fu.env.runtime.USE_TOUCH ? 'touchend' : 'mouseup',
+  TOUCHCANCEL : fu.env.runtime.USE_TOUCH ? 'touchcancel' : 'mouseup',
+  TOUCHMOVE : fu.env.runtime.USE_TOUCH ? 'touchmove' : 'mousemove',
 
   // Other events
-  TRANSITIONEND : fu.env.client.USE_WEBKIT_TRANSITION ?
+  HASHCHANGE : 'hashchange',
+  POPSTATE : 'popstate',
+
+  TRANSITIONEND : fu.env.runtime.USE_WEBKIT_TRANSITION ?
     'webkitTransitionEnd' :
     'transitionend',
 
-  ORIENTATION_CHANGE : fu.env.client.USE_ORIENTATION ?
+  ORIENTATION_CHANGE : fu.env.runtime.USE_ORIENTATION ?
     'orientationchange' :
     'resize',
 
   // Custom Events.
+  CLICK_HREF : goog.events.getUniqueId('href'),
   LAYOUT_UPDATE : goog.events.getUniqueId('layout'),
   LOGIN : goog.events.getUniqueId('login'),
   LOGOUT : goog.events.getUniqueId('out'),

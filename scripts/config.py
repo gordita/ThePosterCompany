@@ -39,12 +39,16 @@ JS_SOURCES_DIRS = [
 # Files
 TPL_FILES = (
   glob.glob(RESOURCE_DIR + '/demo/*.tpl') +
-  glob.glob(RESOURCE_DIR + '/fu/layout/*.tpl')
+  glob.glob(RESOURCE_DIR + '/fu/layout/*.tpl') +
+  glob.glob(RESOURCE_DIR + '/fu/app/fastweb/*.tpl')
   )
 
 CSS_FILES = [
-  RESOURCE_DIR + '/css/layout.css'
-]
+  RESOURCE_DIR + '/css/reset.css',
+  RESOURCE_DIR + '/css/base.css',
+  RESOURCE_DIR + '/css/layout.css',
+  RESOURCE_DIR + '/css/topbar.css',
+  ]
 
 DEMO_JS_FILES = helper.filter(glob.glob(RESOURCE_DIR + '/demo/*.js'), '.tpl')
 
@@ -54,7 +58,7 @@ EXTERN_JS_FILES = glob.glob(RESOURCE_DIR + '/externs/*.js')
 
 # Module & DEMO targets.
 JS_BIN_TARGETS = [
-   ('demo-test', [RESOURCE_DIR + '/demo/test.js']),
+  ('demo-test', [RESOURCE_DIR + '/demo/test.js']),
   # ('demo-scroller', [RESOURCE_DIR + '/demo/scroller.js']),
   # ('dummy-module', [RESOURCE_DIR + '/module/dummymodule.js']),
 ]

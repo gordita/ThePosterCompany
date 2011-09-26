@@ -39,7 +39,7 @@ fu.events.getTouchPagePosition = function(evt) {
 fu.events.getTouches = function(evt) {
   var rev;
   var nativeEvt = evt.getBrowserEvent();
-  if (fu.env.client.USE_TOUCH) {
+  if (fu.env.runtime.USE_TOUCH) {
     // TODO(hedger): Returns a normalized event.
     if (nativeEvt['touches'] && nativeEvt['touches'][0]) {
       rev = nativeEvt['touches'];

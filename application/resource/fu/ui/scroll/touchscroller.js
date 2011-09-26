@@ -1,6 +1,6 @@
 goog.provide('fu.ui.scroll.TouchScroller');
 
-goog.require('fu.env.client');
+goog.require('fu.env.runtime');
 goog.require('fu.events');
 goog.require('fu.events.EventType');
 goog.require('fu.style');
@@ -82,8 +82,8 @@ goog.inherits(fu.ui.scroll.TouchScroller, goog.events.EventTarget);
  * @return {boolean}
  */
 fu.ui.scroll.TouchScroller.isCompatible = function() {
-  return fu.env.client.USE_WEBKIT_CSS3D &&
-    fu.env.client.USE_WEBKIT_TRANSITION;
+  return fu.env.runtime.USE_WEBKIT_CSS3D &&
+    fu.env.runtime.USE_WEBKIT_TRANSITION;
 };
 
 
