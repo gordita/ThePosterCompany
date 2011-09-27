@@ -25,11 +25,11 @@ def gen_webconfig() :
     'CSS_FILES = [\n%s\n]' % ',\n'.join(css_files),
     'DEMO_CSS_FILES = [\n%s\n]' % ',\n'.join(demo_css_files)
   ])
-  print text
   helper.write_text(config.WEB_CONFIG_FILE_PATH, text)
 
 
 if __name__ == '__main__' :
-  print helper.should_compile(config.DEFAULT_COMPILED)
+  print '-' * 80
   print 'gen_webconfig'
+  print 'COMPILED %s' % helper.should_compile(config.DEFAULT_COMPILED)
   gen_webconfig()

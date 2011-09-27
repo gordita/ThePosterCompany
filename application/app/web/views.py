@@ -18,7 +18,8 @@ def offline(request) :
 
 
 def index(request) :
-  return textView(':-)')
+  return demo(request, 'test');
+  # return textView(':-)')
 
 
 def favicon(request) :

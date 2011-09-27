@@ -55,7 +55,7 @@ def gen_js_debug_deps() :
   os.system(cmd)
 
 if __name__ == '__main__' :
-  os.system('clear')
+  print '-' * 80
   print 'gen_js_deps'
   if helper.should_compile(config.DEFAULT_COMPILED):
     for target in config.JS_BIN_TARGETS :

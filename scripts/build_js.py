@@ -62,7 +62,7 @@ def build_js(target_name, flags) :
   os.system(cmd)
 
 if __name__ == '__main__' :
-  os.system('clear')
+  print '-' * 80
   print 'build_js'
   if helper.should_compile(config.DEFAULT_COMPILED):
     for target in config.JS_BIN_TARGETS :

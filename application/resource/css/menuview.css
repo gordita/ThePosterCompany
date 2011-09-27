@@ -1,0 +1,12 @@
+.CSS_MENU_VIEW {
+  background: #222A3C;
+}
+
+.CSS_MENU_VIEW  > .CSS_STACK_LAYOUT_HEAD {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #3F4757), color-stop(1, #1C222F));
+}
+
+.CSS_MENU_VIEW_IN_SEARCH {
+  background: #222A3C;
+}
+

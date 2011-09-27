@@ -1,0 +1,48 @@
+/* AbsoluteLayout */
+.CSS_ABSOLUTE_LAYOUT {
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+/* Grid */
+.CSS_LAYOUT_TABLE {
+  display: table;
+}
+
+.CSS_LAYOUT_ROW {
+  display: table-row;
+}
+
+.CSS_LAYOUT_CELL {
+  display: table-cell;
+}
+
+/* Stack */
+.CSS_STACK_LAYOUT {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+}
+
+.CSS_STACK_LAYOUT_HEAD {
+  -webkit-box-flex: 1;
+}
+
+.CSS_STACK_LAYOUT_BODY {
+  -webkit-box-flex: 9999;
+  position: relative;
+}
+
+.CSS_STACK_LAYOUT_FOOT {
+  -webkit-box-flex: 1;
+}
+
+.CSS_STACK_LAYOUT_BODY .CSS_STACK_LAYOUT_CONTENT {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+}

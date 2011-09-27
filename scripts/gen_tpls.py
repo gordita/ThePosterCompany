@@ -45,5 +45,6 @@ def gen_tpls() :
     gen_tpl(tpl_file)
 
 if __name__ == '__main__' :
+  print '-' * 80
   print 'gen_tpls'
   gen_tpls()

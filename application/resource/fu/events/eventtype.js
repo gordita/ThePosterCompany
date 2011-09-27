@@ -9,6 +9,8 @@ goog.require('fu.env.runtime');
  * @enum {string}
  */
 fu.events.EventType = {
+  CLICK : 'click',
+
   // Touch events
   TOUCHSTART : fu.env.runtime.USE_TOUCH ? 'touchstart' : 'mousedown',
   TOUCHEND : fu.env.runtime.USE_TOUCH ? 'touchend' : 'mouseup',
@@ -29,11 +31,8 @@ fu.events.EventType = {
 
   // Custom Events.
   CLICK_HREF : goog.events.getUniqueId('href'),
-  LAYOUT_UPDATE : goog.events.getUniqueId('layout'),
-  LOGIN : goog.events.getUniqueId('login'),
-  LOGOUT : goog.events.getUniqueId('out'),
-  SELECTCHANGE :  goog.events.getUniqueId('selectschange'),
-  VIEWPORT_SIZE_CHANGE : goog.events.getUniqueId('viewportchange'),
-  URL_UPDATE : goog.events.getUniqueId('urlupdate'),
-  URL_DISPATCH : goog.events.getUniqueId('urldispatch')
+  URL_DISPATCH : goog.events.getUniqueId('urldispatch'),
+  SEARCH_START : goog.events.getUniqueId('searchstart'),
+  SEARCH_CANCEL : goog.events.getUniqueId('searchcancel'),
+  VIEWPORT_SIZE_CHANGE : goog.events.getUniqueId('viewportchange')
 };

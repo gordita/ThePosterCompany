@@ -1,0 +1,65 @@
+.CSS_SEARCH_BOX {
+  -webkit-box-orient: horizontal;
+  border-bottom: 1px solid #1E2434;
+  border-top: 1px solid #272F41;
+  display: -webkit-box;
+  height: 48px;
+  padding: 0 8px 0 8px;
+  position: static;
+  width: 270px;
+}
+
+.CSS_SEARCH_BOX_IN_SEARCH {
+  width: auto;
+}
+
+.CSS_SEARCH_BOX_INPUT_WRAP,
+.CSS_SEARCH_BOX_BUTTON_WRAP {
+  -webkit-border-radius: 15px;
+  -webkit-box-flex: 1000;
+  -webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, .2), 0 1px 0 rgba(255, 255, 255, .07);
+  border: 1px solid #192133;
+  background: #3A4255 url(images/search_icon.png) 8px 50% no-repeat;
+  margin: 8px 16px 8px 0;
+  padding: 0 20px 0 26px;
+  position: relative;
+}
+
+.CSS_SEARCH_BOX_BUTTON_WRAP {
+  -webkit-box-flex: 1;
+  background: none;
+  border-radius: 5px;
+  display: none;
+  margin-right: 0;
+  padding: 0;
+}
+
+.CSS_SEARCH_BOX_IN_SEARCH .CSS_SEARCH_BOX_INPUT_WRAP {
+  margin-right: 6px;
+}
+
+.CSS_SEARCH_BOX_IN_SEARCH .CSS_SEARCH_BOX_BUTTON_WRAP {
+  display: block;
+}
+
+.CSS_SEARCH_BOX_INPUT,
+.CSS_SEARCH_BOX_BUTTON {
+  -webkit-box-shadow: none;
+  background: transparent;
+  border: 0;
+  color: #BBC2CF !important;
+  cursor: text;
+  display: block;
+  font-size: 15px;
+  line-height: 30px;
+  margin: auto;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
+.CSS_SEARCH_BOX_BUTTON {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 8px;
+}
