@@ -28,6 +28,7 @@ JS_CSS_NAMES_PATH = RESOURCE_DIR + '/fu/cssnames.js'
 
 # DIRS
 JS_SOURCES_DIRS = [
+  'fbapi',
   'fu',
   'demo',
   'closure-lib/closure',
@@ -50,6 +51,7 @@ CSS_FILES = [
   RESOURCE_DIR + '/css/searchbox.css',
   RESOURCE_DIR + '/css/topbar.css',
   RESOURCE_DIR + '/css/mainview.css',
+  RESOURCE_DIR + '/css/mainmenu.css',
   RESOURCE_DIR + '/css/menuview.css',
   ]
 

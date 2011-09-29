@@ -31,3 +31,8 @@ fu.env.define.USE_WEBKIT_TRANSITION = true;
  * @define {boolean}
  */
 fu.env.define.ENABLE_HIDE_ADDRESSBAR = true;
+
+/**
+ * @define {boolean}
+ */
+fu.env.define.ENABLE_LOGGER = false;

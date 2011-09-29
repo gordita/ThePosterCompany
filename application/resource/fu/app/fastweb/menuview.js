@@ -1,5 +1,6 @@
 goog.provide('fu.app.fastweb.MenuView');
 
+goog.require('fu.app.fastweb.MainMenu');
 goog.require('fu.app.fastweb.SearchBox');
 goog.require('fu.dom.ViewportSizeMonitor');
 goog.require('fu.events.EventType');
@@ -17,13 +18,17 @@ fu.app.fastweb.MenuView = function() {
   goog.base(this);
   this.addCssName(tpl.fu.CSSNames.CSS_MENU_VIEW);
 
-  var searchBox = new fu.app.fastweb.SearchBox();
-
   /**
    * @type {fu.app.fastweb.SearchBox}
    * @private
    */
-  this._searchBox = searchBox;
+  this._searchBox = new fu.app.fastweb.SearchBox();
+
+  /**
+   * @type {fu.app.fastweb.MainMenu}
+   * @private
+   */
+  this._mainMenu = new fu.app.fastweb.MainMenu();
 
   /**
    * @type {boolean}
@@ -31,7 +36,8 @@ fu.app.fastweb.MenuView = function() {
    */
   this._inSearchMode = false;
 
-  this.addToHeader(searchBox);
+  this.addToHeader(this._searchBox);
+  this.addToBody(this._mainMenu);
 };
 goog.inherits(fu.app.fastweb.MenuView, fu.layout.Stack);
 

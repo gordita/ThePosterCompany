@@ -1,0 +1,50 @@
+.CSS_MAIN_MENU {
+  width: 270px;
+}
+
+.CSS_MENU_VIEW_IN_SEARCH .CSS_MAIN_MENU {
+  width: 100%;
+}
+
+.CSS_MAIN_MENU_ITEM,
+.CSS_MAIN_MENU_ITEM:link,
+.CSS_MAIN_MENU_ITEM:visited {
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  background-color: #32394A;
+  border-bottom: 1px solid #242A37;
+  color: #C4CCDA;
+  display: block;
+  font-weight: bold;
+  font-size: 16px;
+  overflow: hidden;
+  padding: 4px 6px;
+  position: relative;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .6);
+  white-space: nowrap;
+}
+
+.CSS_MAIN_MENU_CAPTION {
+  color: #7A8292;
+  font-size: 12px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.CSS_MAIN_MENU_LINK_ITEM:link,
+.CSS_MAIN_MENU_LINK_ITEM:visited {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.CSS_MAIN_MENU_FOOTER {
+  font-weight: normal;
+  font-size: 13px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  white-space: normal;
+}
+
+.CSS_MAIN_MENU_FOOTER .CSS_LINK:link,
+.CSS_MAIN_MENU_FOOTER .CSS_LINK:visited {
+  color: #C4CCDA;
+}

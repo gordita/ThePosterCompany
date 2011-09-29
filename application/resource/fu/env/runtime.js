@@ -73,3 +73,10 @@ fu.env.runtime.IS_IOS = fu.env.define.IS_IOS ||
  */
 fu.env.runtime.ENABLE_HIDE_ADDRESSBAR = fu.env.define.ENABLE_HIDE_ADDRESSBAR ||
   fu.env.runtime.IS_IOS;
+
+/**
+ * @const
+ * @type {boolean}
+ */
+fu.env.runtime.ENABLE_LOGGER = fu.env.define.ENABLE_LOGGER ||
+  !!window['console'];

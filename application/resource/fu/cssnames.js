@@ -176,18 +176,72 @@ tpl.fu.CSSNames.CSS_MAIN_VIEW = COMPILED ? 'H17' : 'CSS_MAIN_VIEW';
 // .CSS_STACK_LAYOUT_HEAD{
 // var CSS_STACK_LAYOUT_HEAD = 'H5';
 
-/** @type {string} .CSS_MENU_VIEW{ */
-var CSS_MENU_VIEW = 'H18';
+/** @type {string} .CSS_MAIN_MENU{ */
+var CSS_MAIN_MENU = 'H18';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MENU_VIEW = COMPILED ? 'H18' : 'CSS_MENU_VIEW';
+tpl.fu.CSSNames.CSS_MAIN_MENU = COMPILED ? 'H18' : 'CSS_MAIN_MENU';
+
+/** @type {string} .CSS_MENU_VIEW_IN_SEARCH  */
+var CSS_MENU_VIEW_IN_SEARCH = 'H19';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MENU_VIEW_IN_SEARCH = COMPILED ? 'H19' : 'CSS_MENU_VIEW_IN_SEARCH';
+
+// .CSS_MAIN_MENU{
+// var CSS_MAIN_MENU = 'H18';
+
+/** @type {string} .CSS_MAIN_MENU_ITEM, */
+var CSS_MAIN_MENU_ITEM = 'H1A';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM = COMPILED ? 'H1A' : 'CSS_MAIN_MENU_ITEM';
+
+// .CSS_MAIN_MENU_ITEM:
+// var CSS_MAIN_MENU_ITEM = 'H1A';
+
+// .CSS_MAIN_MENU_ITEM:
+// var CSS_MAIN_MENU_ITEM = 'H1A';
+
+/** @type {string} .CSS_MAIN_MENU_CAPTION{ */
+var CSS_MAIN_MENU_CAPTION = 'H1B';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_CAPTION = COMPILED ? 'H1B' : 'CSS_MAIN_MENU_CAPTION';
+
+/** @type {string} .CSS_MAIN_MENU_LINK_ITEM: */
+var CSS_MAIN_MENU_LINK_ITEM = 'H1C';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_LINK_ITEM = COMPILED ? 'H1C' : 'CSS_MAIN_MENU_LINK_ITEM';
+
+// .CSS_MAIN_MENU_LINK_ITEM:
+// var CSS_MAIN_MENU_LINK_ITEM = 'H1C';
+
+/** @type {string} .CSS_MAIN_MENU_FOOTER{ */
+var CSS_MAIN_MENU_FOOTER = 'H1D';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_FOOTER = COMPILED ? 'H1D' : 'CSS_MAIN_MENU_FOOTER';
+
+// .CSS_MAIN_MENU_FOOTER 
+// var CSS_MAIN_MENU_FOOTER = 'H1D';
+
+/** @type {string} .CSS_LINK: */
+var CSS_LINK = 'H1E';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_LINK = COMPILED ? 'H1E' : 'CSS_LINK';
+
+// .CSS_MAIN_MENU_FOOTER 
+// var CSS_MAIN_MENU_FOOTER = 'H1D';
+
+// .CSS_LINK:
+// var CSS_LINK = 'H1E';
+
+/** @type {string} .CSS_MENU_VIEW{ */
+var CSS_MENU_VIEW = 'H1F';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MENU_VIEW = COMPILED ? 'H1F' : 'CSS_MENU_VIEW';
 
 // .CSS_MENU_VIEW>
-// var CSS_MENU_VIEW = 'H18';
+// var CSS_MENU_VIEW = 'H1F';
 
 // .CSS_STACK_LAYOUT_HEAD{
 // var CSS_STACK_LAYOUT_HEAD = 'H5';
 
-/** @type {string} .CSS_MENU_VIEW_IN_SEARCH{ */
-var CSS_MENU_VIEW_IN_SEARCH = 'H19';
-/** @type {string} */
-tpl.fu.CSSNames.CSS_MENU_VIEW_IN_SEARCH = COMPILED ? 'H19' : 'CSS_MENU_VIEW_IN_SEARCH';
+// .CSS_MENU_VIEW_IN_SEARCH{
+// var CSS_MENU_VIEW_IN_SEARCH = 'H19';

@@ -7,6 +7,7 @@ CSS_FILES = [
 '/resource/css/searchbox.css',
 '/resource/css/topbar.css',
 '/resource/css/mainview.css',
+'/resource/css/mainmenu.css',
 '/resource/css/menuview.css'
 ]
 DEMO_CSS_FILES = [
@@ -16,6 +17,7 @@ DEMO_CSS_FILES = [
 '/resource/css/searchbox.css',
 '/resource/css/topbar.css',
 '/resource/css/mainview.css',
+'/resource/css/mainmenu.css',
 '/resource/css/menuview.css',
 '/resource/css/demo.css'
 ]

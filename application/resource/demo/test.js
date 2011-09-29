@@ -1,15 +1,16 @@
 goog.provide('demo.test');
 
+goog.require('fbapi');
 goog.require('fu.app.fastweb.Chrome');
+goog.require('fu.async.Callback');
 goog.require('fu.events.EventType');
 goog.require('fu.layout.FullView');
+goog.require('fu.logger');
 goog.require('fu.ui.BaseUI');
 goog.require('goog.events.EventHandler');
 
-/**
- * Start
- */
-demo.test.start = function() {
+// Test
+demo.test.testLayout = function() {
   var doc = goog.dom.getElement('doc');
   var wall = new fu.layout.FullView();
   wall.render(doc);
@@ -38,10 +39,60 @@ demo.test.start = function() {
   }, true);
 };
 
-/**
- * Start
- */
-demo.test.start2 = function() {
+// Test
+demo.test.testChrome = function() {
   new fu.app.fastweb.Chrome();
 };
-goog.exportSymbol('start', demo.test.start2);
+
+// Test
+demo.test.testAsync = function() {
+  var cb1 = new fu.async.Callback();
+  cb1.then(
+    function(res) {
+      fu.logger.log('cb1', res);
+      var cb2 = new fu.async.Callback();
+      window.setTimeout(function() {
+        cb2.succeed('world');
+      }, 10);
+      return cb2;
+    }
+  ).then(
+    function(res) {
+      fu.logger.log('cb2', res);
+    }
+  );
+
+  cb1.succeed('hello');
+
+  var cb3 = new fu.async.Callback();
+  var foo, bar;
+
+  window.setTimeout(function() {
+    foo = 'foo';
+  }, 1000);
+
+  window.setTimeout(function() {
+    bar = 'bar';
+  }, 2000);
+
+  cb3.
+    waitFor(
+    function() {
+      return foo ? 'foo' : undefined;
+    }).
+    waitFor(
+    function() {
+      return bar ? 'bar' : undefined;
+    }).
+    then(
+    function(res) {
+      fu.logger.log('cb3', res, foo, bar);
+    });
+};
+
+// Test.
+demo.test.testFbApi = function() {
+  fbapi.query();
+};
+
+goog.exportSymbol('start', demo.test.testFbApi);
