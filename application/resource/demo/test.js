@@ -46,34 +46,40 @@ demo.test.testChrome = function() {
 
 // Test
 demo.test.testAsync = function() {
-  var cb1 = new fu.async.Callback();
-  cb1.then(
-    function(res) {
-      fu.logger.log('cb1', res);
-      var cb2 = new fu.async.Callback();
-      window.setTimeout(function() {
-        cb2.succeed('world');
-      }, 10);
-      return cb2;
-    }
-  ).then(
-    function(res) {
-      fu.logger.log('cb2', res);
-    }
-  );
+//  var cb1 = new fu.async.Callback();
+//  cb1.then(
+//    function(res) {
+//      fu.logger.log('cb1', res);
+//      var cb2 = new fu.async.Callback();
+//      window.setTimeout(function() {
+//        cb2.succeed('world');
+//      }, 10);
+//      return cb2;
+//    }
+//  ).then(
+//    function(res) {
+//      fu.logger.log('cb2', res);
+//    }
+//  );
+//
+//  cb1.succeed('hello');
 
-  cb1.succeed('hello');
-
-  var cb3 = new fu.async.Callback();
-  var foo, bar;
+  var foo, bar, kuu;
 
   window.setTimeout(function() {
     foo = 'foo';
-  }, 1000);
+  }, 400);
 
   window.setTimeout(function() {
     bar = 'bar';
-  }, 2000);
+  }, 200);
+
+  var cb3 = new fu.async.Callback();
+  var cb4 = new fu.async.Callback();
+
+  setTimeout(function() {
+    cb4.succeed('kuu')
+  }, 100);
 
   cb3.
     waitFor(
@@ -84,7 +90,8 @@ demo.test.testAsync = function() {
     function() {
       return bar ? 'bar' : undefined;
     }).
-    then(
+    waitFor(cb4)
+    .then(
     function(res) {
       fu.logger.log('cb3', res, foo, bar);
     });
@@ -92,7 +99,13 @@ demo.test.testAsync = function() {
 
 // Test.
 demo.test.testFbApi = function() {
-  fbapi.query();
+  fbapi.checkLogin().then(function(pass) {
+    if (!pass) {
+      fbapi.login();
+    } else {
+      fbapi.query('groups');
+    }
+  });
 };
 
-goog.exportSymbol('start', demo.test.testFbApi);
+goog.exportSymbol('start', demo.test.testChrome);

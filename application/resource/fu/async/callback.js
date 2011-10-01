@@ -30,13 +30,19 @@ fu.async.Callback = function() {
    * @type {Function}
    * @private
    */
-  this._onError = null;
+  this._onError = this._defaultOnError;
 
   /**
    * @type {fu.async.Callback}
    * @private
    */
   this._nextCallback = null;
+
+  /**
+   * @type {fu.async.Callback}
+   * @private
+   */
+  this._prevCallback = null;
 
   /**
    * @type {number}
@@ -50,64 +56,136 @@ fu.async.Callback = function() {
  * @type {number}
  * @private
  */
-fu.async.Callback.WAIT_TIMEOUT_ = 10 * 1000;
+fu.async.Callback.WAIT_TIMEOUT_ = 30 * 1000;
 
 /**
  * @type {number}
  * @private
  */
-fu.async.Callback.WAIT_INTERVAL_ = 100;
+fu.async.Callback.WAIT_INTERVAL_ = 50;
 
 
 /**
- * @param {Function} condition
+ * @param {Function|fu.async.Callback} condition
  * @param {number=} opt_timeout
+ * @return {fu.async.Callback}
  */
 fu.async.Callback.prototype.waitFor = function(condition, opt_timeout) {
   goog.asserts.assert(!this._processed, 'Already processed');
   goog.asserts.assert(!this._waitTimer, 'Already waiting');
-  goog.asserts.assert(goog.isFunction(condition), 'invalid waitFor condition');
+  goog.asserts.assert(!this._nextCallback, 'nextCallback not null');
 
+  goog.asserts.assert(
+    goog.isFunction(condition) ||
+      (/** @type {Object} */ (condition) instanceof fu.async.Callback),
+    'invalid waitFor condition');
+
+  if (condition instanceof fu.async.Callback) {
+    var conditionCallback = /** @type {fu.async.Callback} */ (condition);
+    var conditionPass = false;
+    var conditionValue;
+    var conditionFunc = function() {
+      if (conditionPass) {
+        return typeof conditionValue != 'undefined' ? conditionValue : null;
+      } else {
+        return undefined;
+      }
+    };
+    conditionCallback.then(function(res) {
+      conditionPass = true;
+      conditionValue = res;
+    });
+
+    return this.waitFor(conditionFunc, opt_timeout);
+  }
+
+  var conditionFn = /** @type {Function} */ (condition);
   var startTime = goog.now();
   var timeout = goog.isNumber(opt_timeout) ?
     opt_timeout :
     fu.async.Callback.WAIT_TIMEOUT_;
 
   this._waitTimer = window.setInterval(goog.bind(function() {
-    var res = condition();
+    if (this._prevCallback && this._prevCallback._waitTimer) {
+      return;
+    }
+    var res = conditionFn();
     if (typeof res != 'undefined') {
+      this._unWait();
       this.succeed(res);
     } else if ((goog.now() - startTime) > timeout) {
       fu.logger.log('callback timeout', this);
+      this._unWait();
       this.fail();
     }
   }, this), fu.async.Callback.WAIT_INTERVAL_);
 
   var callback = new fu.async.Callback();
   this._nextCallback = callback;
+  callback._prevCallback = this;
+  return callback;
+};
+
+
+/**
+ * @param {...fu.async.Callback} var_args
+ * @return {fu.async.Callback}
+ */
+fu.async.Callback.prototype.waitForCallbacks = function(var_args) {
+  var values = [];
+  var count = arguments.length;
+  var callback = new fu.async.Callback();
+  goog.array.forEach(arguments, function(arg, idx) {
+    var argCallback = /** @type {fu.async.Callback} */ (arg);
+    argCallback.then(function(response) {
+      count--;
+      values[idx] = response;
+      idx = null;
+    });
+  });
+  return callback.waitFor(function() {
+    if (count === 0) {
+      return values;
+    }
+  });
+};
+
+
+/**
+ * @param {*} opt_data
+ * @return {fu.async.Callback}
+ */
+fu.async.Callback.prototype.willSucceed = function(opt_data) {
+  goog.asserts.assert(!this._nextCallback, 'nextCallback not null');
+
+  var callback = new fu.async.Callback();
+  this._nextCallback = callback;
+
+  window.setTimeout(goog.bind(function() {
+    this.succeed(opt_data);
+    opt_data = null;
+  }, this), 0);
+
   return callback;
 };
 
 
 /**
  * @param {*} opt_data
- */
-fu.async.Callback.prototype.willSucceed = function(opt_data) {
-  window.setTimeout(goog.bind(function() {
-    this.succeed(opt_data);
-    opt_data = null;
-  }, this), 0);
-};
-
-
-/**
- * @param {*} opt_data
+ * @return {fu.async.Callback}
  */
 fu.async.Callback.prototype.willFail = function(opt_data) {
+  goog.asserts.assert(!this._nextCallback, 'nextCallback not null');
+
+  var callback = new fu.async.Callback();
+  this._nextCallback = callback;
+
   window.setTimeout(goog.bind(function() {
     this.fail(opt_data);
     opt_data = null;
   }, this), 0);
+
+  return callback;
 };
 
 
@@ -116,11 +194,7 @@ fu.async.Callback.prototype.willFail = function(opt_data) {
  */
 fu.async.Callback.prototype.succeed = function(opt_data) {
   goog.asserts.assert(!this._processed, 'Already processed');
-
-  if (this._waitTimer) {
-    window.clearTimeout(this._waitTimer);
-    this._waitTimer = 0;
-  }
+  goog.asserts.assert(!this._waitTimer, 'Still waiting');
 
   this._processed = true;
 
@@ -150,11 +224,7 @@ fu.async.Callback.prototype.succeed = function(opt_data) {
  */
 fu.async.Callback.prototype.fail = function(opt_data) {
   goog.asserts.assert(!this._processed, 'Already processed');
-
-  if (this._waitTimer) {
-    window.clearTimeout(this._waitTimer);
-    this._waitTimer = 0;
-  }
+  goog.asserts.assert(!this._waitTimer, 'Still waiting');
 
   this._processed = true;
 
@@ -170,7 +240,7 @@ fu.async.Callback.prototype.fail = function(opt_data) {
 
 /**
  * @param {Function|fu.async.Callback} callback
- * @param {Function} opt_onError
+ * @param {Function=} opt_onError
  * @return {fu.async.Callback}
  */
 fu.async.Callback.prototype.then = function(callback, opt_onError) {
@@ -193,4 +263,20 @@ fu.async.Callback.prototype.then = function(callback, opt_onError) {
   }
 
   return this._nextCallback;
+};
+
+/**
+ * @private
+ * @param {Object} response
+ */
+fu.async.Callback.prototype._defaultOnError = function(response) {
+  fu.logger.log('Callback Error', response);
+};
+
+/**
+ * @private
+ */
+fu.async.Callback.prototype._unWait = function() {
+  window.clearInterval(this._waitTimer);
+  this._waitTimer = 0;
 };

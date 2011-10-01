@@ -64,3 +64,8 @@ input {
 #fb-root {
   display: none;
 }
+
+.CSS_ICON {
+  background: transparent none 50% 50% no-repeat;
+  display: inline-block;
+}

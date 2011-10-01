@@ -28,11 +28,12 @@ JS_CSS_NAMES_PATH = RESOURCE_DIR + '/fu/cssnames.js'
 
 # DIRS
 JS_SOURCES_DIRS = [
-  'fbapi',
-  'fu',
-  'demo',
   'closure-lib/closure',
   'closure-lib/third_party',
+  'data',
+  'demo',
+  'fbapi',
+  'fu',
   'module',
   'soy-lib',
   ]

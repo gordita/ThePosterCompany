@@ -8,240 +8,311 @@ tpl.fu.CSSNames = {};
 
 // Define css names below.
 
-/** @type {string} .CSS_ABSOLUTE_LAYOUT{ */
-var CSS_ABSOLUTE_LAYOUT = 'H0';
+/** @type {string} .CSS_ICON{ */
+var CSS_ICON = 'H0';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_ABSOLUTE_LAYOUT = COMPILED ? 'H0' : 'CSS_ABSOLUTE_LAYOUT';
+tpl.fu.CSSNames.CSS_ICON = COMPILED ? 'H0' : 'CSS_ICON';
+
+/** @type {string} .CSS_ABSOLUTE_LAYOUT{ */
+var CSS_ABSOLUTE_LAYOUT = 'H1';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_ABSOLUTE_LAYOUT = COMPILED ? 'H1' : 'CSS_ABSOLUTE_LAYOUT';
 
 /** @type {string} .CSS_LAYOUT_TABLE{ */
-var CSS_LAYOUT_TABLE = 'H1';
+var CSS_LAYOUT_TABLE = 'H2';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_LAYOUT_TABLE = COMPILED ? 'H1' : 'CSS_LAYOUT_TABLE';
+tpl.fu.CSSNames.CSS_LAYOUT_TABLE = COMPILED ? 'H2' : 'CSS_LAYOUT_TABLE';
 
 /** @type {string} .CSS_LAYOUT_ROW{ */
-var CSS_LAYOUT_ROW = 'H2';
+var CSS_LAYOUT_ROW = 'H3';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_LAYOUT_ROW = COMPILED ? 'H2' : 'CSS_LAYOUT_ROW';
+tpl.fu.CSSNames.CSS_LAYOUT_ROW = COMPILED ? 'H3' : 'CSS_LAYOUT_ROW';
 
 /** @type {string} .CSS_LAYOUT_CELL{ */
-var CSS_LAYOUT_CELL = 'H3';
+var CSS_LAYOUT_CELL = 'H4';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_LAYOUT_CELL = COMPILED ? 'H3' : 'CSS_LAYOUT_CELL';
+tpl.fu.CSSNames.CSS_LAYOUT_CELL = COMPILED ? 'H4' : 'CSS_LAYOUT_CELL';
 
 /** @type {string} .CSS_STACK_LAYOUT{ */
-var CSS_STACK_LAYOUT = 'H4';
+var CSS_STACK_LAYOUT = 'H5';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_STACK_LAYOUT = COMPILED ? 'H4' : 'CSS_STACK_LAYOUT';
+tpl.fu.CSSNames.CSS_STACK_LAYOUT = COMPILED ? 'H5' : 'CSS_STACK_LAYOUT';
 
 /** @type {string} .CSS_STACK_LAYOUT_HEAD{ */
-var CSS_STACK_LAYOUT_HEAD = 'H5';
+var CSS_STACK_LAYOUT_HEAD = 'H6';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_STACK_LAYOUT_HEAD = COMPILED ? 'H5' : 'CSS_STACK_LAYOUT_HEAD';
+tpl.fu.CSSNames.CSS_STACK_LAYOUT_HEAD = COMPILED ? 'H6' : 'CSS_STACK_LAYOUT_HEAD';
 
 /** @type {string} .CSS_STACK_LAYOUT_BODY{ */
-var CSS_STACK_LAYOUT_BODY = 'H6';
+var CSS_STACK_LAYOUT_BODY = 'H7';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_STACK_LAYOUT_BODY = COMPILED ? 'H6' : 'CSS_STACK_LAYOUT_BODY';
+tpl.fu.CSSNames.CSS_STACK_LAYOUT_BODY = COMPILED ? 'H7' : 'CSS_STACK_LAYOUT_BODY';
 
 /** @type {string} .CSS_STACK_LAYOUT_FOOT{ */
-var CSS_STACK_LAYOUT_FOOT = 'H7';
+var CSS_STACK_LAYOUT_FOOT = 'H8';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_STACK_LAYOUT_FOOT = COMPILED ? 'H7' : 'CSS_STACK_LAYOUT_FOOT';
+tpl.fu.CSSNames.CSS_STACK_LAYOUT_FOOT = COMPILED ? 'H8' : 'CSS_STACK_LAYOUT_FOOT';
 
 // .CSS_STACK_LAYOUT_BODY 
-// var CSS_STACK_LAYOUT_BODY = 'H6';
+// var CSS_STACK_LAYOUT_BODY = 'H7';
 
 /** @type {string} .CSS_STACK_LAYOUT_CONTENT{ */
-var CSS_STACK_LAYOUT_CONTENT = 'H8';
+var CSS_STACK_LAYOUT_CONTENT = 'H9';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_STACK_LAYOUT_CONTENT = COMPILED ? 'H8' : 'CSS_STACK_LAYOUT_CONTENT';
+tpl.fu.CSSNames.CSS_STACK_LAYOUT_CONTENT = COMPILED ? 'H9' : 'CSS_STACK_LAYOUT_CONTENT';
 
 /** @type {string} .CSS_SEARCH_BOX{ */
-var CSS_SEARCH_BOX = 'H9';
+var CSS_SEARCH_BOX = 'HA';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_SEARCH_BOX = COMPILED ? 'H9' : 'CSS_SEARCH_BOX';
+tpl.fu.CSSNames.CSS_SEARCH_BOX = COMPILED ? 'HA' : 'CSS_SEARCH_BOX';
 
 /** @type {string} .CSS_SEARCH_BOX_IN_SEARCH{ */
-var CSS_SEARCH_BOX_IN_SEARCH = 'HA';
+var CSS_SEARCH_BOX_IN_SEARCH = 'HB';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_SEARCH_BOX_IN_SEARCH = COMPILED ? 'HA' : 'CSS_SEARCH_BOX_IN_SEARCH';
+tpl.fu.CSSNames.CSS_SEARCH_BOX_IN_SEARCH = COMPILED ? 'HB' : 'CSS_SEARCH_BOX_IN_SEARCH';
 
 /** @type {string} .CSS_SEARCH_BOX_INPUT_WRAP, */
-var CSS_SEARCH_BOX_INPUT_WRAP = 'HB';
+var CSS_SEARCH_BOX_INPUT_WRAP = 'HC';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_SEARCH_BOX_INPUT_WRAP = COMPILED ? 'HB' : 'CSS_SEARCH_BOX_INPUT_WRAP';
+tpl.fu.CSSNames.CSS_SEARCH_BOX_INPUT_WRAP = COMPILED ? 'HC' : 'CSS_SEARCH_BOX_INPUT_WRAP';
 
 /** @type {string} .CSS_SEARCH_BOX_BUTTON_WRAP{ */
-var CSS_SEARCH_BOX_BUTTON_WRAP = 'HC';
+var CSS_SEARCH_BOX_BUTTON_WRAP = 'HD';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_SEARCH_BOX_BUTTON_WRAP = COMPILED ? 'HC' : 'CSS_SEARCH_BOX_BUTTON_WRAP';
+tpl.fu.CSSNames.CSS_SEARCH_BOX_BUTTON_WRAP = COMPILED ? 'HD' : 'CSS_SEARCH_BOX_BUTTON_WRAP';
 
 // .CSS_SEARCH_BOX_BUTTON_WRAP{
-// var CSS_SEARCH_BOX_BUTTON_WRAP = 'HC';
+// var CSS_SEARCH_BOX_BUTTON_WRAP = 'HD';
 
 // .CSS_SEARCH_BOX_IN_SEARCH 
-// var CSS_SEARCH_BOX_IN_SEARCH = 'HA';
+// var CSS_SEARCH_BOX_IN_SEARCH = 'HB';
 
 // .CSS_SEARCH_BOX_INPUT_WRAP{
-// var CSS_SEARCH_BOX_INPUT_WRAP = 'HB';
+// var CSS_SEARCH_BOX_INPUT_WRAP = 'HC';
 
 // .CSS_SEARCH_BOX_IN_SEARCH 
-// var CSS_SEARCH_BOX_IN_SEARCH = 'HA';
+// var CSS_SEARCH_BOX_IN_SEARCH = 'HB';
 
 // .CSS_SEARCH_BOX_BUTTON_WRAP{
-// var CSS_SEARCH_BOX_BUTTON_WRAP = 'HC';
+// var CSS_SEARCH_BOX_BUTTON_WRAP = 'HD';
 
 /** @type {string} .CSS_SEARCH_BOX_INPUT, */
-var CSS_SEARCH_BOX_INPUT = 'HD';
+var CSS_SEARCH_BOX_INPUT = 'HE';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_SEARCH_BOX_INPUT = COMPILED ? 'HD' : 'CSS_SEARCH_BOX_INPUT';
+tpl.fu.CSSNames.CSS_SEARCH_BOX_INPUT = COMPILED ? 'HE' : 'CSS_SEARCH_BOX_INPUT';
 
 /** @type {string} .CSS_SEARCH_BOX_BUTTON{ */
-var CSS_SEARCH_BOX_BUTTON = 'HE';
+var CSS_SEARCH_BOX_BUTTON = 'HF';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_SEARCH_BOX_BUTTON = COMPILED ? 'HE' : 'CSS_SEARCH_BOX_BUTTON';
+tpl.fu.CSSNames.CSS_SEARCH_BOX_BUTTON = COMPILED ? 'HF' : 'CSS_SEARCH_BOX_BUTTON';
 
 // .CSS_SEARCH_BOX_BUTTON{
-// var CSS_SEARCH_BOX_BUTTON = 'HE';
+// var CSS_SEARCH_BOX_BUTTON = 'HF';
 
 /** @type {string} .CSS_TOP_BAR{ */
-var CSS_TOP_BAR = 'HF';
+var CSS_TOP_BAR = 'H10';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_TOP_BAR = COMPILED ? 'HF' : 'CSS_TOP_BAR';
+tpl.fu.CSSNames.CSS_TOP_BAR = COMPILED ? 'H10' : 'CSS_TOP_BAR';
 
 // .CSS_TOP_BAR 
-// var CSS_TOP_BAR = 'HF';
+// var CSS_TOP_BAR = 'H10';
 
 /** @type {string} .CSS_GROUP_START{ */
-var CSS_GROUP_START = 'H10';
+var CSS_GROUP_START = 'H11';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_GROUP_START = COMPILED ? 'H10' : 'CSS_GROUP_START';
+tpl.fu.CSSNames.CSS_GROUP_START = COMPILED ? 'H11' : 'CSS_GROUP_START';
 
 // .CSS_TOP_BAR 
-// var CSS_TOP_BAR = 'HF';
+// var CSS_TOP_BAR = 'H10';
 
 /** @type {string} .CSS_GROUP_MIDDLE{ */
-var CSS_GROUP_MIDDLE = 'H11';
+var CSS_GROUP_MIDDLE = 'H12';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_GROUP_MIDDLE = COMPILED ? 'H11' : 'CSS_GROUP_MIDDLE';
+tpl.fu.CSSNames.CSS_GROUP_MIDDLE = COMPILED ? 'H12' : 'CSS_GROUP_MIDDLE';
 
 // .CSS_TOP_BAR 
-// var CSS_TOP_BAR = 'HF';
+// var CSS_TOP_BAR = 'H10';
 
 /** @type {string} .CSS_GROUP_END{ */
-var CSS_GROUP_END = 'H12';
+var CSS_GROUP_END = 'H13';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_GROUP_END = COMPILED ? 'H12' : 'CSS_GROUP_END';
+tpl.fu.CSSNames.CSS_GROUP_END = COMPILED ? 'H13' : 'CSS_GROUP_END';
 
 /** @type {string} .CSS_TOP_BAR_ICON_MENU, */
-var CSS_TOP_BAR_ICON_MENU = 'H13';
+var CSS_TOP_BAR_ICON_MENU = 'H14';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_TOP_BAR_ICON_MENU = COMPILED ? 'H13' : 'CSS_TOP_BAR_ICON_MENU';
+tpl.fu.CSSNames.CSS_TOP_BAR_ICON_MENU = COMPILED ? 'H14' : 'CSS_TOP_BAR_ICON_MENU';
 
 /** @type {string} .CSS_TOP_BAR_ICON_REQUESTS, */
-var CSS_TOP_BAR_ICON_REQUESTS = 'H14';
+var CSS_TOP_BAR_ICON_REQUESTS = 'H15';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_TOP_BAR_ICON_REQUESTS = COMPILED ? 'H14' : 'CSS_TOP_BAR_ICON_REQUESTS';
+tpl.fu.CSSNames.CSS_TOP_BAR_ICON_REQUESTS = COMPILED ? 'H15' : 'CSS_TOP_BAR_ICON_REQUESTS';
 
 /** @type {string} .CSS_TOP_BAR_ICON_INBOX, */
-var CSS_TOP_BAR_ICON_INBOX = 'H15';
+var CSS_TOP_BAR_ICON_INBOX = 'H16';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_TOP_BAR_ICON_INBOX = COMPILED ? 'H15' : 'CSS_TOP_BAR_ICON_INBOX';
+tpl.fu.CSSNames.CSS_TOP_BAR_ICON_INBOX = COMPILED ? 'H16' : 'CSS_TOP_BAR_ICON_INBOX';
 
 /** @type {string} .CSS_TOP_BAR_ICON_NOTIFICATIONS{ */
-var CSS_TOP_BAR_ICON_NOTIFICATIONS = 'H16';
+var CSS_TOP_BAR_ICON_NOTIFICATIONS = 'H17';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_TOP_BAR_ICON_NOTIFICATIONS = COMPILED ? 'H16' : 'CSS_TOP_BAR_ICON_NOTIFICATIONS';
+tpl.fu.CSSNames.CSS_TOP_BAR_ICON_NOTIFICATIONS = COMPILED ? 'H17' : 'CSS_TOP_BAR_ICON_NOTIFICATIONS';
 
 // .CSS_TOP_BAR_ICON_MENU{
-// var CSS_TOP_BAR_ICON_MENU = 'H13';
+// var CSS_TOP_BAR_ICON_MENU = 'H14';
 
 // .CSS_TOP_BAR_ICON_REQUESTS{
-// var CSS_TOP_BAR_ICON_REQUESTS = 'H14';
+// var CSS_TOP_BAR_ICON_REQUESTS = 'H15';
 
 // .CSS_TOP_BAR_ICON_INBOX{
-// var CSS_TOP_BAR_ICON_INBOX = 'H15';
+// var CSS_TOP_BAR_ICON_INBOX = 'H16';
 
 // .CSS_TOP_BAR_ICON_NOTIFICATIONS{
-// var CSS_TOP_BAR_ICON_NOTIFICATIONS = 'H16';
+// var CSS_TOP_BAR_ICON_NOTIFICATIONS = 'H17';
 
 /** @type {string} .CSS_MAIN_VIEW{ */
-var CSS_MAIN_VIEW = 'H17';
+var CSS_MAIN_VIEW = 'H18';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MAIN_VIEW = COMPILED ? 'H17' : 'CSS_MAIN_VIEW';
+tpl.fu.CSSNames.CSS_MAIN_VIEW = COMPILED ? 'H18' : 'CSS_MAIN_VIEW';
 
 // .CSS_MAIN_VIEW>
-// var CSS_MAIN_VIEW = 'H17';
+// var CSS_MAIN_VIEW = 'H18';
 
 // .CSS_STACK_LAYOUT_HEAD{
-// var CSS_STACK_LAYOUT_HEAD = 'H5';
+// var CSS_STACK_LAYOUT_HEAD = 'H6';
 
 /** @type {string} .CSS_MAIN_MENU{ */
-var CSS_MAIN_MENU = 'H18';
+var CSS_MAIN_MENU = 'H19';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MAIN_MENU = COMPILED ? 'H18' : 'CSS_MAIN_MENU';
+tpl.fu.CSSNames.CSS_MAIN_MENU = COMPILED ? 'H19' : 'CSS_MAIN_MENU';
 
 /** @type {string} .CSS_MENU_VIEW_IN_SEARCH  */
-var CSS_MENU_VIEW_IN_SEARCH = 'H19';
+var CSS_MENU_VIEW_IN_SEARCH = 'H1A';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MENU_VIEW_IN_SEARCH = COMPILED ? 'H19' : 'CSS_MENU_VIEW_IN_SEARCH';
+tpl.fu.CSSNames.CSS_MENU_VIEW_IN_SEARCH = COMPILED ? 'H1A' : 'CSS_MENU_VIEW_IN_SEARCH';
 
 // .CSS_MAIN_MENU{
-// var CSS_MAIN_MENU = 'H18';
+// var CSS_MAIN_MENU = 'H19';
 
 /** @type {string} .CSS_MAIN_MENU_ITEM, */
-var CSS_MAIN_MENU_ITEM = 'H1A';
+var CSS_MAIN_MENU_ITEM = 'H1B';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM = COMPILED ? 'H1A' : 'CSS_MAIN_MENU_ITEM';
+tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM = COMPILED ? 'H1B' : 'CSS_MAIN_MENU_ITEM';
 
 // .CSS_MAIN_MENU_ITEM:
-// var CSS_MAIN_MENU_ITEM = 'H1A';
+// var CSS_MAIN_MENU_ITEM = 'H1B';
 
 // .CSS_MAIN_MENU_ITEM:
-// var CSS_MAIN_MENU_ITEM = 'H1A';
+// var CSS_MAIN_MENU_ITEM = 'H1B';
 
 /** @type {string} .CSS_MAIN_MENU_CAPTION{ */
-var CSS_MAIN_MENU_CAPTION = 'H1B';
+var CSS_MAIN_MENU_CAPTION = 'H1C';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MAIN_MENU_CAPTION = COMPILED ? 'H1B' : 'CSS_MAIN_MENU_CAPTION';
+tpl.fu.CSSNames.CSS_MAIN_MENU_CAPTION = COMPILED ? 'H1C' : 'CSS_MAIN_MENU_CAPTION';
 
 /** @type {string} .CSS_MAIN_MENU_LINK_ITEM: */
-var CSS_MAIN_MENU_LINK_ITEM = 'H1C';
+var CSS_MAIN_MENU_LINK_ITEM = 'H1D';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MAIN_MENU_LINK_ITEM = COMPILED ? 'H1C' : 'CSS_MAIN_MENU_LINK_ITEM';
+tpl.fu.CSSNames.CSS_MAIN_MENU_LINK_ITEM = COMPILED ? 'H1D' : 'CSS_MAIN_MENU_LINK_ITEM';
 
 // .CSS_MAIN_MENU_LINK_ITEM:
-// var CSS_MAIN_MENU_LINK_ITEM = 'H1C';
+// var CSS_MAIN_MENU_LINK_ITEM = 'H1D';
+
+/** @type {string} .CSS_MAIN_MENU_ICON_ITEM, */
+var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_ICON_ITEM = COMPILED ? 'H1E' : 'CSS_MAIN_MENU_ICON_ITEM';
+
+// .CSS_MAIN_MENU_ICON_ITEM:
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM:
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+/** @type {string} .CSS_MAIN_MENU_ITEM_TEXT{ */
+var CSS_MAIN_MENU_ITEM_TEXT = 'H1F';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM_TEXT = COMPILED ? 'H1F' : 'CSS_MAIN_MENU_ITEM_TEXT';
+
+/** @type {string} .CSS_MAIN_MENU_ITEM_COUNT{ */
+var CSS_MAIN_MENU_ITEM_COUNT = 'H20';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM_COUNT = COMPILED ? 'H20' : 'CSS_MAIN_MENU_ITEM_COUNT';
+
+/** @type {string} .CSS_MAIN_MENU_ITEM_START{ */
+var CSS_MAIN_MENU_ITEM_START = 'H21';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM_START = COMPILED ? 'H21' : 'CSS_MAIN_MENU_ITEM_START';
+
+// .CSS_MAIN_MENU_ITEM_START 
+// var CSS_MAIN_MENU_ITEM_START = 'H21';
+
+// .CSS_ICON{
+// var CSS_ICON = 'H0';
+
+/** @type {string} .CSS_MAIN_MENU_ITEM_MID{ */
+var CSS_MAIN_MENU_ITEM_MID = 'H22';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM_MID = COMPILED ? 'H22' : 'CSS_MAIN_MENU_ITEM_MID';
+
+/** @type {string} .CSS_MAIN_MENU_ITEM_END{ */
+var CSS_MAIN_MENU_ITEM_END = 'H23';
+/** @type {string} */
+tpl.fu.CSSNames.CSS_MAIN_MENU_ITEM_END = COMPILED ? 'H23' : 'CSS_MAIN_MENU_ITEM_END';
 
 /** @type {string} .CSS_MAIN_MENU_FOOTER{ */
-var CSS_MAIN_MENU_FOOTER = 'H1D';
+var CSS_MAIN_MENU_FOOTER = 'H24';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MAIN_MENU_FOOTER = COMPILED ? 'H1D' : 'CSS_MAIN_MENU_FOOTER';
+tpl.fu.CSSNames.CSS_MAIN_MENU_FOOTER = COMPILED ? 'H24' : 'CSS_MAIN_MENU_FOOTER';
 
 // .CSS_MAIN_MENU_FOOTER 
-// var CSS_MAIN_MENU_FOOTER = 'H1D';
+// var CSS_MAIN_MENU_FOOTER = 'H24';
 
 /** @type {string} .CSS_LINK: */
-var CSS_LINK = 'H1E';
+var CSS_LINK = 'H25';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_LINK = COMPILED ? 'H1E' : 'CSS_LINK';
+tpl.fu.CSSNames.CSS_LINK = COMPILED ? 'H25' : 'CSS_LINK';
 
 // .CSS_MAIN_MENU_FOOTER 
-// var CSS_MAIN_MENU_FOOTER = 'H1D';
+// var CSS_MAIN_MENU_FOOTER = 'H24';
 
 // .CSS_LINK:
-// var CSS_LINK = 'H1E';
+// var CSS_LINK = 'H25';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
+
+// .CSS_MAIN_MENU_ICON_ITEM 
+// var CSS_MAIN_MENU_ICON_ITEM = 'H1E';
 
 /** @type {string} .CSS_MENU_VIEW{ */
-var CSS_MENU_VIEW = 'H1F';
+var CSS_MENU_VIEW = 'H26';
 /** @type {string} */
-tpl.fu.CSSNames.CSS_MENU_VIEW = COMPILED ? 'H1F' : 'CSS_MENU_VIEW';
+tpl.fu.CSSNames.CSS_MENU_VIEW = COMPILED ? 'H26' : 'CSS_MENU_VIEW';
 
 // .CSS_MENU_VIEW>
-// var CSS_MENU_VIEW = 'H1F';
+// var CSS_MENU_VIEW = 'H26';
 
 // .CSS_STACK_LAYOUT_HEAD{
-// var CSS_STACK_LAYOUT_HEAD = 'H5';
+// var CSS_STACK_LAYOUT_HEAD = 'H6';
 
 // .CSS_MENU_VIEW_IN_SEARCH{
-// var CSS_MENU_VIEW_IN_SEARCH = 'H19';
+// var CSS_MENU_VIEW_IN_SEARCH = 'H1A';

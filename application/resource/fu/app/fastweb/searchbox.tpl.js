@@ -15,6 +15,6 @@ goog.require('soy.StringBuilder');
  */
 tpl.fu.app.fastweb.SearchBox.element = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '" class="CSS_SEARCH_BOX"><div class="CSS_SEARCH_BOX_INPUT_WRAP"><div id="', soy.$$escapeHtml(opt_data.id), '_input" tabindex="1" role="button" class="CSS_SEARCH_BOX_INPUT">Search</div></div><div class="CSS_SEARCH_BOX_BUTTON_WRAP"><div id="', soy.$$escapeHtml(opt_data.id), '_button" tabindex="1" role="button" class="CSS_SEARCH_BOX_BUTTON">Cancel</div></div></div>');
+  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '" class="', CSS_SEARCH_BOX, '"><div class="', CSS_SEARCH_BOX_INPUT_WRAP, '"><div id="', soy.$$escapeHtml(opt_data.id), '_input" tabindex="1" role="button" class="', CSS_SEARCH_BOX_INPUT, '">Search</div></div><div class="', CSS_SEARCH_BOX_BUTTON_WRAP, '"><div id="', soy.$$escapeHtml(opt_data.id), '_button" tabindex="1" role="button" class="', CSS_SEARCH_BOX_BUTTON, '">Cancel</div></div></div>');
   if (!opt_sb) return output.toString();
 };

@@ -36,3 +36,8 @@ fu.env.define.ENABLE_HIDE_ADDRESSBAR = true;
  * @define {boolean}
  */
 fu.env.define.ENABLE_LOGGER = false;
+
+/**
+ * @define {boolean}
+ */
+fu.env.define.USE_MOCK_DATA = !true;
