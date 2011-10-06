@@ -2,6 +2,7 @@ goog.provide('fu.ui.BaseUI');
 
 goog.require('fu.dom.ViewportSizeMonitor');
 goog.require('fu.id.IdGenerator');
+goog.require('fu.logger');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.dispose');
@@ -102,6 +103,14 @@ fu.ui.BaseUI.prototype.disposeInternal = function() {
 
   this._children = null;
   goog.dispose(this._handler);
+  goog.dispose(this._scrollable);
+};
+
+/**
+ * @return {fu.ui.BaseUI}
+ */
+fu.ui.BaseUI.prototype.getParent = function() {
+  return this._parent;
 };
 
 
@@ -205,7 +214,11 @@ fu.ui.BaseUI.prototype.getInnerElement = function(suffix) {
   var el = this.getElement();
   goog.asserts.assert(el, 'element is null');
   var selector = '#' + this.getId() + '_' + suffix;
-  return el.querySelector(selector);
+  var node = el.querySelector(selector);
+  if (!node) {
+    fu.logger.log('innerElement is null', suffix, el, el.innerHTML, this);
+  }
+  return node;
 };
 
 
@@ -215,6 +228,7 @@ fu.ui.BaseUI.prototype.getInnerElement = function(suffix) {
 fu.ui.BaseUI.prototype.getContentElement = function() {
   return this.getElement();
 };
+
 
 /**
  * @param {Function=} opt_template
@@ -304,6 +318,7 @@ fu.ui.BaseUI.prototype.render = function(parentEl) {
 fu.ui.BaseUI.prototype.addChild = function(child) {
   goog.asserts.assert(!child._parent, 'Child already has parent');
   child._parent = this;
+  child.setParentEventTarget(this);
   this._children.push(child);
   if (this._rendered) {
     child.render(this.getContentElement())

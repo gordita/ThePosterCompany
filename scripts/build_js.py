@@ -12,10 +12,7 @@ for extern_file in config.EXTERN_JS_FILES
 DEFAULT_FLAGS = EXTERN_FLAGS + [
   '--define=goog.userAgent.ASSUME_WEBKIT',
   #  '--define=hw.config.BUILD_TIME=%s' % round(time.time()),
-  #  '--define=hw.config.USE_NATIVE_LOGGER=false',
-  #  '--define=hw.config.USE_HTML_LOGGER=false',
-  #  '--define=hw.config.USE_MOCK_DATA=false',
-  #  '--define=hw.config.USE_MOCK_FB_API=false',
+  '--define=fu.env.define.ENABLE_LOGGER=false',
   '--define=COMPILED',
   ]
 
@@ -56,7 +53,7 @@ def build_js(target_name, flags) :
   cmd = 'java -jar %s %s %s ' % (
     config.JS_COMPILER_PATH,
     flags_text,
-    ' \\\n'.join(helper.get_file_lines(input_path))
+    ' \\\n'.join(helper.get_file_lines(input_path, True))
     )
   print cmd
   os.system(cmd)
@@ -64,7 +61,7 @@ def build_js(target_name, flags) :
 if __name__ == '__main__' :
   print '-' * 80
   print 'build_js'
-  if helper.should_compile(config.DEFAULT_COMPILED):
+  if helper.should_compile(config.DEFAULT_COMPILED) :
     for target in config.JS_BIN_TARGETS :
       target_name = target[0]
       target_modules = target[1]

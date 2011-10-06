@@ -8,7 +8,8 @@ CSS_FILES = [
 '/resource/css/topbar.css',
 '/resource/css/mainview.css',
 '/resource/css/mainmenu.css',
-'/resource/css/menuview.css'
+'/resource/css/menuview.css',
+'/resource/css/newsfeed.css'
 ]
 DEMO_CSS_FILES = [
 '/resource/css/reset.css',
@@ -19,5 +20,6 @@ DEMO_CSS_FILES = [
 '/resource/css/mainview.css',
 '/resource/css/mainmenu.css',
 '/resource/css/menuview.css',
+'/resource/css/newsfeed.css',
 '/resource/css/demo.css'
 ]

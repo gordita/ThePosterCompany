@@ -5,37 +5,34 @@
   border-color: #111a33;
   border-radius: 6px 6px 0 0;
   display: -webkit-box;
-  height: 50px;
+  height: 45px;
   white-space: nowrap;
 }
 
 .CSS_TOP_BAR .CSS_GROUP_START {
   -webkit-box-flex: 1;
-  padding: 7px 0;
 }
 
 .CSS_TOP_BAR .CSS_GROUP_MIDDLE {
   -webkit-box-flex: 100;
-  padding: 7px 0;
   text-align: center;
 }
 
 .CSS_TOP_BAR .CSS_GROUP_END {
   -webkit-box-flex: 1;
-  padding: 7px 0;
 }
 
 .CSS_TOP_BAR_ICON_MENU,
 .CSS_TOP_BAR_ICON_REQUESTS,
 .CSS_TOP_BAR_ICON_INBOX,
 .CSS_TOP_BAR_ICON_NOTIFICATIONS {
-  background: none 50% 0 no-repeat;
+  background: none 50% 50% no-repeat;
   display: inline-block;
   font-size: 1px;
   height: 26px;
-  overflow: hidden;
-  margin: 0 6px;
-  padding: 0 6px;
+  position: relative;
+  margin: 3px 6px;
+  padding: 6px 6px;
   text-indent: -500px;
   width: 30px;
 }
@@ -55,4 +52,16 @@
 
 .CSS_TOP_BAR_ICON_NOTIFICATIONS {
   background-image: url(images/topbar-notification.png);
+}
+
+.CSS_TOP_BAR .CSS_PRESSED:after {
+  -webkit-box-shadow: 0 0 5px #fff;
+  bottom: 0;
+  border-radius: 10px;
+  content: '';
+  display: block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }

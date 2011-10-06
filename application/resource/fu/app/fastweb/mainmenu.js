@@ -3,9 +3,10 @@ goog.provide('fu.app.fastweb.MainMenu');
 goog.require('fbapi');
 goog.require('fu.async.Callback');
 goog.require('fu.ui.BaseAsyncUI');
+
+goog.require('goog.array');
 goog.require('tpl.fu.CSSNames');
 goog.require('tpl.fu.app.fastweb.MainMenu');
-goog.require('goog.array');
 
 
 /**
@@ -18,8 +19,19 @@ fu.app.fastweb.MainMenu = function() {
 goog.inherits(fu.app.fastweb.MainMenu, fu.ui.BaseAsyncUI);
 
 /** @inheritDoc */
-fu.app.fastweb.MainMenu.prototype.getAsyncData = function() {
+fu.app.fastweb.MainMenu.prototype.createTemplate = function(payload) {
+  return tpl.fu.app.fastweb.MainMenu.element(payload);
+};
 
+
+/** @inheritDoc */
+fu.app.fastweb.MainMenu.prototype.createAsyncTemplate = function(payload) {
+  return tpl.fu.app.fastweb.MainMenu.asyncElement(payload);
+};
+
+
+/** @inheritDoc */
+fu.app.fastweb.MainMenu.prototype.getAsyncData = function() {
   var callback = new fu.async.Callback();
 
   callback.waitForCallbacks(
@@ -55,10 +67,4 @@ fu.app.fastweb.MainMenu.prototype.getAsyncData = function() {
     });
 
   return callback;
-
-};
-
-/** @inheritDoc */
-fu.app.fastweb.MainMenu.prototype.createAsyncTemplate = function(payload) {
-  return tpl.fu.app.fastweb.MainMenu.element(payload);
 };

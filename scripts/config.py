@@ -25,6 +25,8 @@ IMAGE_BIN_DIR = APPLICATION_DIR + 'bin/css/images'
 WEB_CONFIG_FILE_PATH = APPLICATION_DIR + 'app/web/config.py'
 JS_DEPS_DEBUG_PATH = DEPS_OUTPUT = JS_DEPS_OUTPUT_DIR + '/debug-deps.js'
 JS_CSS_NAMES_PATH = RESOURCE_DIR + '/fu/cssnames.js'
+JS_FBAPI_FILE_PATH = RESOURCE_DIR + '/fbapi/fbapi.js'
+
 
 # DIRS
 JS_SOURCES_DIRS = [
@@ -54,7 +56,10 @@ CSS_FILES = [
   RESOURCE_DIR + '/css/mainview.css',
   RESOURCE_DIR + '/css/mainmenu.css',
   RESOURCE_DIR + '/css/menuview.css',
+  RESOURCE_DIR + '/css/newsfeed.css',
   ]
+
+MOCK_DATA_FILES = glob.glob(RESOURCE_DIR + '/data/*.js')
 
 IMG_FILES = (
   glob.glob(RESOURCE_DIR + '/css/images/*.png') +

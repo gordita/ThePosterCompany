@@ -38,11 +38,39 @@
   -webkit-box-flex: 1;
 }
 
-.CSS_STACK_LAYOUT_BODY .CSS_STACK_LAYOUT_CONTENT {
+.CSS_STACK_LAYOUT_BODY > .CSS_STACK_LAYOUT_CONTENT {
   bottom: 0;
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
   overflow: hidden;
+}
+
+.CSS_LAYOUT_LAYERS {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.CSS_LAYOUT_LAYER {
+  left: 0;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.CSS_LAYOUT_SCROLL {
+  /*
+  outline: solid 3px red;
+  outline-offset: -3px;
+  */
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.CSS_LAYOUT_SCROLL_CONTENT {
+  position: relative;
 }

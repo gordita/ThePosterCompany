@@ -30,7 +30,9 @@ fu.events.EventType = {
     'resize',
 
   // Custom Events.
-  CLICK_HREF : goog.events.getUniqueId('href'),
+  CLICK_HREF : goog.events.getUniqueId('clickhref'),
+  CLICK_CONTENT : goog.events.getUniqueId('clickcontent'),
+  LAYOUT_RESIZE : goog.events.getUniqueId('layoutresize'),
   URL_DISPATCH : goog.events.getUniqueId('urldispatch'),
   SEARCH_START : goog.events.getUniqueId('searchstart'),
   SEARCH_CANCEL : goog.events.getUniqueId('searchcancel'),

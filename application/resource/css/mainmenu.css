@@ -1,4 +1,5 @@
 .CSS_MAIN_MENU {
+  height: 100%;
   width: 270px;
 }
 
@@ -8,8 +9,11 @@
 
 .CSS_MAIN_MENU_ITEM,
 .CSS_MAIN_MENU_ITEM:link,
-.CSS_MAIN_MENU_ITEM:visited {
+.CSS_MAIN_MENU_ITEM:visited,
+.CSS_MAIN_MENU_ITEM:hover,
+.CSS_MAIN_MENU_ITEM:active {
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-transform: translate3d(0, 0, 0);
   background-color: #32394A;
   border-bottom: 1px solid #242A37;
   color: #C4CCDA;
@@ -23,29 +27,26 @@
   white-space: nowrap;
 }
 
-.CSS_MAIN_MENU_CAPTION {
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
-  background: -webkit-gradient(linear, left top, left bottom, from(#434B5C), to(#394152));
-  border-bottom: 1px solid #242A37;
-  border-top: none;
-  color: #7A8292;
-  padding-left: 10px;
-  font-size: 10px;
-  font-weight: normal;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
+.CSS_MAIN_MENU_ITEM.CSS_SELECTED,
+.CSS_MAIN_MENU_ITEM.CSS_PRESSED {
+  background: #262C3A !important;
 }
 
+.CSS_MAIN_MENU_LINK_ITEM,
 .CSS_MAIN_MENU_LINK_ITEM:link,
-.CSS_MAIN_MENU_LINK_ITEM:visited {
+.CSS_MAIN_MENU_LINK_ITEM:visited,
+.CSS_MAIN_MENU_LINK_ITEM:hover,
+.CSS_MAIN_MENU_LINK_ITEM:active {
   padding-bottom: 10px;
   padding-left: 8px;
   padding-top: 10px;
 }
 
 .CSS_MAIN_MENU_ICON_ITEM,
+.CSS_MAIN_MENU_ICON_ITEM:link,
 .CSS_MAIN_MENU_ICON_ITEM:visited,
-.CSS_MAIN_MENU_ICON_ITEM:link {
+.CSS_MAIN_MENU_ICON_ITEM:hover,
+.CSS_MAIN_MENU_ICON_ITEM:active {
   display: -webkit-box;
   padding: 4px 6px 0 10px;
 }
@@ -86,7 +87,7 @@
 }
 
 .CSS_MAIN_MENU_ITEM_MID {
-  -webkit-box-flex: 100;
+  -webkit-box-flex: 1000;
 }
 
 .CSS_MAIN_MENU_ITEM_END {
@@ -102,8 +103,27 @@
 }
 
 .CSS_MAIN_MENU_FOOTER .CSS_LINK:link,
-.CSS_MAIN_MENU_FOOTER .CSS_LINK:visited {
+.CSS_MAIN_MENU_FOOTER .CSS_LINK:visited,
+.CSS_MAIN_MENU_FOOTER .CSS_LINK:hover,
+.CSS_MAIN_MENU_FOOTER .CSS_LINK:active {
   color: #C4CCDA;
+}
+
+.CSS_MAIN_MENU_CAPTION,
+.CSS_MAIN_MENU_CAPTION:focus,
+.CSS_MAIN_MENU_CAPTION:link,
+.CSS_MAIN_MENU_CAPTION:visited
+.CSS_MAIN_MENU_CAPTION:hover,
+.CSS_MAIN_MENU_CAPTION:active {
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  background: -webkit-gradient(linear, left top, left bottom, from(#434B5C), to(#394152));
+  border-bottom: 1px solid #242A37;
+  border-top: none;
+  color: #7A8292 !important;
+  font-size: 10px !important;
+  font-weight: normal;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
 }
 
 .CSS_MAIN_MENU_ICON_ITEM .news_feed {
@@ -130,10 +150,10 @@
   background-image: url(images/ico_list.png);
 }
 
-.CSS_MAIN_MENU_ICON_ITEM .friends {
+.CSS_MAIN_MENU_ICON_ITEM .photos {
   background-image: url(images/ico_photos.png);
 }
 
-.CSS_MAIN_MENU_ICON_ITEM .list {
+.CSS_MAIN_MENU_ICON_ITEM .notes {
   background-image: url(images/ico_notes.png);
 }

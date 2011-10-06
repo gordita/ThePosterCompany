@@ -16,6 +16,7 @@
   {% endif %}
 </head>
 <body>
+
 <div id="doc"></div>
 {% if compiled %}
 <script src="/bin/js/{{file_name}}.js"></script>
@@ -24,7 +25,15 @@
 <script src="/resource/deps/debug-deps.js"></script>
 <script>goog.require('demo.{{file_name}}');</script>
 {% endif %}
-<script>start()</script>
+<script>
+  document.addEventListener('touchstart', function(evt) {
+    evt.preventDefault();
+  }, false);
+  document.addEventListener('touchmove', function(evt) {
+    evt.preventDefault();
+  }, false);
+  start();
+</script>
 </body>
 </html>
 

@@ -26,7 +26,7 @@ def gen_js_bin_deps(target_name, module_files) :
   cmd = gen_base_cmd(module_files) + output_str
   print cmd
   os.system(cmd)
-  lines = helper.get_file_lines(output_path)
+  lines = helper.get_file_lines(output_path, True)
   new_lines = []
   idx = 0
   last_module_name = None
@@ -57,7 +57,7 @@ def gen_js_debug_deps() :
 if __name__ == '__main__' :
   print '-' * 80
   print 'gen_js_deps'
-  if helper.should_compile(config.DEFAULT_COMPILED):
+  if helper.should_compile(config.DEFAULT_COMPILED) :
     for target in config.JS_BIN_TARGETS :
       target_name = target[0]
       target_modules = target[1]

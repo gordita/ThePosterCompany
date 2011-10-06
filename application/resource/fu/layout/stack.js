@@ -4,6 +4,7 @@ goog.provide('fu.layout.StackBody');
 goog.provide('fu.layout.StackFoot');
 
 goog.require('fu.layout.FullView');
+goog.require('goog.dispose');
 goog.require('tpl.fu.CSSNames');
 goog.require('tpl.fu.layout.Stack');
 
@@ -39,6 +40,13 @@ fu.layout.Stack = function() {
   this.addChild(this._foot);
 };
 goog.inherits(fu.layout.Stack, fu.layout.FullView);
+
+
+/** @inheritDoc */
+fu.layout.Stack.prototype.disposeInternal = function() {
+  goog.base(this, 'disposeInternal');
+};
+
 
 /** @inheritDoc */
 fu.layout.Stack.prototype.addChild = function(child) {

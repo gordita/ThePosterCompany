@@ -3,13 +3,24 @@
 /**
  * Template.
  * @param id
+ */
+{template .element}
+<div id="{$id}_element"  class="{css CSS_MAIN_MENU}">
+  <div id="{$id}_content"></div>
+</div>
+{/template}
+
+
+/**
+ * Template.
+ * @param id
  * @param accessToken
  * @param user
  * @param groups
  * @param friendlists
  */
-{template .element}
-<div id="{$id}" class="{css CSS_MAIN_MENU}">
+{template .asyncElement}
+<div id="{$id}_asyncElement">
   {call .user_item}
     {param user: $user /}
     {param accessToken: $accessToken /}
@@ -159,10 +170,17 @@
 <a href="/profile/{$user['id']}"
    class="{css CSS_MAIN_MENU_ICON_ITEM} {css CSS_MAIN_MENU_ITEM}">
   <div class="{css CSS_MAIN_MENU_ITEM_START}">
-    <div class="{css CSS_ICON}"
-      style="background-image:url(
-      https://graph.facebook.com/{$user['id']}/picture?access_token={$accessToken})">
-     </div>
+    {if $user['id']}
+      {call .user_icon}
+        {param uid: $user['id'] /}
+        {param accessToken: $accessToken /}
+      {/call}
+    {elseif $user['uid']}
+      {call .user_icon}
+        {param uid: $user['uid'] /}
+        {param accessToken: $accessToken /}
+      {/call}
+    {/if}
   </div>
   <div class="{css CSS_MAIN_MENU_ITEM_MID}">
     <div class="{css CSS_MAIN_MENU_ITEM_TEXT}">
@@ -206,3 +224,17 @@
   {/if}
 </a>
 {/template}
+
+/**
+ * template.
+ * @param uid
+ * @param accessToken
+ */
+{template .user_icon }
+<div
+  class="{css CSS_ICON}"
+  style="background-image:url(
+    https://graph.facebook.com/{$uid}/picture?access_token={$accessToken})">
+</div>
+{/template}
+

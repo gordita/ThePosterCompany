@@ -78,8 +78,14 @@ fu.env.runtime.ENABLE_HIDE_ADDRESSBAR = fu.env.define.ENABLE_HIDE_ADDRESSBAR ||
  * @const
  * @type {boolean}
  */
-fu.env.runtime.ENABLE_LOGGER = fu.env.define.ENABLE_LOGGER ||
+fu.env.runtime.ENABLE_LOGGER = fu.env.define.ENABLE_LOGGER &&
   !!window['console'];
+
+/**
+ * @const
+ * @type {boolean}
+ */
+fu.env.runtime.USE_LOCAL_STORAGE = fu.env.define.USE_LOCAL_STORAGE;
 
 /**
  * @const

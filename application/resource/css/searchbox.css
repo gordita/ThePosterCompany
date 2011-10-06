@@ -3,7 +3,7 @@
   border-bottom: 1px solid #1E2434;
   border-top: 1px solid #272F41;
   display: -webkit-box;
-  height: 48px;
+  height: 43px;
   padding: 0 8px 0 8px;
   position: static;
   width: 270px;
@@ -51,7 +51,7 @@
   cursor: text;
   display: block;
   font-size: 15px;
-  line-height: 30px;
+  line-height: 25px;
   margin: auto;
   outline: none;
   padding: 0;

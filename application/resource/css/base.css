@@ -65,7 +65,26 @@ input {
   display: none;
 }
 
-.CSS_ICON {
+.CSS_ICON,
+.CSS_IMAGE {
   background: transparent none 50% 50% no-repeat;
   display: inline-block;
+}
+
+.CSS_PRESSED {
+  direction: inherit;
+  /*
+  outline: solid 4px red !important;
+  outline-offset: -4px !important;
+  */
+}
+
+.CSS_CLICK_MASK {
+  background: none;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1000;
 }

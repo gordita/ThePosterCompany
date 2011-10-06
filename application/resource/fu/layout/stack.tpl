@@ -26,7 +26,8 @@
  */
 {template .body}
 <div class="{css CSS_STACK_LAYOUT_BODY}">
-  <div id="{$id}_content" class="{css CSS_STACK_LAYOUT_CONTENT}"></div>
+  <div id="{$id}_content" class="{css CSS_STACK_LAYOUT_CONTENT}">
+  </div>
 </div>
 {/template}
   

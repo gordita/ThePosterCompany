@@ -1,8 +1,10 @@
 goog.provide('fu.app.fastweb.Chrome');
 
+goog.require('fbapi');
 goog.require('fu.app.fastweb.MainView');
 goog.require('fu.app.fastweb.MenuView');
 goog.require('fu.app.fastweb.UrlMap');
+goog.require('fu.dom.ViewportSizeMonitor');
 goog.require('fu.events.ClickInjector');
 goog.require('fu.url.Dispatcher');
 goog.require('fu.url.Navigator');
@@ -16,6 +18,7 @@ goog.require('goog.events.EventHandler');
  * @constructor
  */
 fu.app.fastweb.Chrome = function() {
+
   /**
    * @type {goog.dom.DomHelper}
    * @private
@@ -60,12 +63,18 @@ fu.app.fastweb.Chrome = function() {
   this._dispatcher = new fu.url.Dispatcher(this._dom.getWindow());
 
   /**
-   * @type {boolean}
+   * @type {?boolean}
    * @private
    */
-  this._showMenu = false;
+  this._showMenu = null;
 
-  this._start();
+  fbapi.checkLogin().then(goog.bind(function(pass) {
+    if (!pass) {
+      fbapi.login();
+    } else {
+      this._start();
+    }
+  }, this));
 };
 
 
@@ -73,6 +82,8 @@ fu.app.fastweb.Chrome = function() {
  * @private
  */
 fu.app.fastweb.Chrome.prototype._start = function() {
+  fu.dom.ViewportSizeMonitor.getInstance().hideAddressBar();
+
   var body = this._dom.getDocument().body;
   this._mainView.render(body);
   this._menuView.render(body);
@@ -101,6 +112,11 @@ fu.app.fastweb.Chrome.prototype._registerUrls = function() {
  * @private
  */
 fu.app.fastweb.Chrome.prototype._bindEvents = function() {
+  this._handler.listen(
+    this._clickInjector,
+    fu.events.EventType.CLICK_CONTENT,
+    this._onClickContent);
+
   this._handler.listen(
     this._clickInjector,
     fu.events.EventType.CLICK_HREF,
@@ -134,6 +150,14 @@ fu.app.fastweb.Chrome.prototype._onClickHref = function(evt) {
 
 
 /**
+ * @param {Event} evt
+ * @private
+ */
+fu.app.fastweb.Chrome.prototype._onClickContent = function(evt) {
+  fu.dom.ViewportSizeMonitor.getInstance().hideAddressBar();
+};
+
+/**
  * @param {fu.events.Event} evt
  * @private
  */
@@ -141,10 +165,13 @@ fu.app.fastweb.Chrome.prototype._onUriDispatch = function(evt) {
   var openMainView = false;
   switch (evt.name) {
     case fu.app.fastweb.UrlMap.Action.SIDE_MENU:
-      this._showMenu = !this._showMenu;
+      this._showMenu = goog.isBoolean(this._showMenu) ?
+        !this._showMenu :
+        false;
       break;
 
     default:
+      this._showMenu = false;
       break;
   }
 

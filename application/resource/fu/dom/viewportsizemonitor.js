@@ -29,16 +29,10 @@ fu.dom.ViewportSizeMonitor = function(opt_win) {
     ],
     this._onResize);
 
-  this._handler.listen(
-    this._window.document,
-    goog.events.EventType.CLICK,
-    this.onTouchEnd_);
-
-
-  this.onResizeInternal_();
+  this._onResizeInternal();
 
   this._intreval = this._window.setInterval(
-    goog.bind(this.onResizeInternal_, this),
+    goog.bind(this._onResizeInternal, this),
     1500);
 };
 goog.inherits(fu.dom.ViewportSizeMonitor, goog.events.EventTarget);
@@ -88,15 +82,18 @@ fu.dom.ViewportSizeMonitor.prototype.disposeInternal = function() {
   this._handler = null;
 };
 
+
 /**
  * hideAddressBar
  */
 fu.dom.ViewportSizeMonitor.prototype.hideAddressBar = function() {
   if (fu.env.runtime.ENABLE_HIDE_ADDRESSBAR) {
-    window.scrollTo(0, 1);
-    this._timeout = this._window.setTimeout(
-      goog.bind(this.onResizeInternal_, this),
-      100);
+    if (window.pageYOffset < 1) {
+      window.scrollTo(0, 1);
+      this._timeout = this._window.setTimeout(
+        goog.bind(this._onResizeInternal, this),
+        100);
+    }
   }
 };
 
@@ -121,7 +118,7 @@ fu.dom.ViewportSizeMonitor.prototype._onResize = function(evt) {
   if (evt && evt.type == fu.events.EventType.ORIENTATION_CHANGE) {
     this.hideAddressBar();
   } else {
-    this.onResizeInternal_();
+    this._onResizeInternal();
   }
 };
 
@@ -129,15 +126,7 @@ fu.dom.ViewportSizeMonitor.prototype._onResize = function(evt) {
 /**
  * @private
  */
-fu.dom.ViewportSizeMonitor.prototype.onTouchEnd_ = function() {
-  this.hideAddressBar();
-};
-
-
-/**
- * @private
- */
-fu.dom.ViewportSizeMonitor.prototype.onResizeInternal_ = function() {
+fu.dom.ViewportSizeMonitor.prototype._onResizeInternal = function() {
   var w = this._window['innerWidth'];
   var h = this._window['innerHeight'];
   if (this._size && this._size.width === w && this._size.height === h) {

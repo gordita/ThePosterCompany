@@ -28,7 +28,8 @@ fu.app.fastweb.TopBar.prototype.captureEvents = function() {
   this.getHandler().listen(
     this.getElement(),
     fu.events.EventType.TOUCHSTART,
-    this._onTouchStart);
+    this._onTouchStart,
+    true);
 };
 
 /**
@@ -38,12 +39,6 @@ fu.app.fastweb.TopBar.prototype.captureEvents = function() {
 fu.app.fastweb.TopBar.prototype._onTouchStart = function(evt) {
   var target = evt.target;
   if (target.href) {
-    var uri = new goog.Uri(target.href);
-    if (uri.getParameterValue('open') != 'x') {
-      uri.setParameterValue('open', 'x');
-    } else {
-      uri.setParameterValue('open', 'y');
-    }
-    target.href = uri.toString();
+    target.setAttribute('cmd', 'toggle');
   }
 };

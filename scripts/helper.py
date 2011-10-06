@@ -23,11 +23,13 @@ def get_files_text(paths) :
   return ''.join(texts)
 
 
-def get_file_lines(path) :
+def get_file_lines(path, trim=False) :
   file = open(path)
   lines = []
   for line in file.xreadlines() :
-    lines.append(line.strip())
+    if trim :
+      line = line.strip();
+    lines.append(line)
   file.close()
   return lines
 
@@ -71,10 +73,10 @@ def get_build_info_file(path) :
   return path
 
 
-def should_compile(compiled = False) :
+def should_compile(compiled=False) :
   for arg in sys.argv :
     if arg.find('-') is 0 :
-      if arg == '-c' or arg == '-c=1':
+      if arg == '-c' or arg == '-c=1' :
         return True
       if arg == '-c=0' :
         return False

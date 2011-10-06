@@ -1,11 +1,24 @@
 goog.provide('fbapi');
 
+goog.require('data.AlbumsFeed');
+goog.require('data.CheckInsFeed');
+goog.require('data.FriendsFeed');
+goog.require('data.FriendsList');
+goog.require('data.GroupsFeed');
+goog.require('data.InfoFeed');
+goog.require('data.NewsFeed');
+goog.require('data.NotificationsFeed');
+goog.require('data.PhotoFeed');
+goog.require('data.PhotosFeed');
+goog.require('data.ProfileFeed');
+goog.require('data.User');
 goog.require('fu.async.Callback');
 goog.require('fu.env.runtime');
 goog.require('fu.logger');
 goog.require('goog.Uri');
 goog.require('goog.asserts');
 goog.require('goog.dom');
+goog.require('goog.json');
 
 /**
  * @const
@@ -26,6 +39,12 @@ fbapi.API_ID = '168904136523866';
  * @type {string}
  */
 fbapi.API_SECRET = 'ce6779fa1b6a7594d2390eec440039f4';
+
+/**
+ * @const
+ * @type {number}
+ */
+fbapi.EXPIRE_LIMIT = 10 * 1000 * 60 * 60;
 
 /**
  * Login.
@@ -64,15 +83,20 @@ fbapi.getApi = function() {
  * @return {fu.async.Callback}
  */
 fbapi.query = function(path, opt_id) {
+  if (fu.env.runtime.USE_MOCK_DATA) {
+    return fbapi._queryMock(path);
+  }
+
   return fbapi.getApi().then(function() {
     goog.asserts.assert(fbapi._accessToken, 'access token is null');
 
     var id = opt_id ? opt_id : 'me';
     var fullPath = (path == 'me') ? path : '/' + id + '/' + path;
     var callback = new fu.async.Callback();
+    var cachedResults = fbapi._queryFromCache(fullPath);
 
-    if (fbapi._queryCache[fullPath]) {
-      return callback.willSucceed(fbapi._queryCache[fullPath]);
+    if (cachedResults) {
+      return callback.willSucceed(cachedResults);
     }
 
     fu.logger.log('query', fullPath);
@@ -80,9 +104,8 @@ fbapi.query = function(path, opt_id) {
     fbapi._api.api(fullPath, function(results) {
       if (fbapi._checkResults(results)) {
         fu.logger.log('query:results:pass', fullPath, results);
-        results.cachedTime = goog.now();
-        results.accessToken = fbapi._accessToken;
-        fbapi._queryCache[fullPath] = results;
+        fbapi._saveToCache(fullPath, results);
+        results = fbapi._queryFromCache(fullPath);
         callback.succeed(results);
       } else {
         fu.logger.log('query:results:fail', fullPath, results);
@@ -101,6 +124,9 @@ fbapi.query = function(path, opt_id) {
  */
 fbapi.checkLogin = function() {
   var callback = new fu.async.Callback();
+  if (fu.env.define.USE_MOCK_DATA) {
+    return callback.willSucceed(true);
+  }
   if (goog.isBoolean(fbapi._loggedIn)) {
     return callback.willSucceed(fbapi._loggedIn);
   } else {
@@ -128,6 +154,12 @@ fbapi._queryCache = {};
  * @private
  */
 fbapi._accessToken = null;
+
+/**
+ * @type {?string}
+ * @private
+ */
+fbapi._uid = null;
 
 /**
  * @type {boolean|undefined}
@@ -251,7 +283,8 @@ fbapi._install = function() {
           fu.logger.log('fbapi#getLoginStatus', response);
           fbapi._accessToken =
             String(goog.getObjectByName('session.access_token', response));
-
+          fbapi._uid =
+            String(goog.getObjectByName('session.uid', response));
           if (fbapi._accessToken && response['session'] && response['session']) {
             fbapi._loggedIn = true;
           } else {
@@ -281,6 +314,105 @@ fbapi._install = function() {
       fu.logger.log('fbapi installed');
     });
 };
+
+/**
+ * @param {string} path
+ * @return {fu.async.Callback}
+ */
+fbapi._queryMock = function(path) {
+  var callback = new fu.async.Callback();
+  var map = {
+    'groups' : data.GroupsFeed,
+    'friendlists' : data.FriendsList,
+    'me' : data.User
+  };
+  if (map[path]) {
+    return callback.willSucceed(map[path]);
+  } else {
+    fu.logger.log('mock data for:', path);
+    return callback.willFail(null);
+  }
+};
+
+/**
+ * @param {?string} fullPath
+ * @return {Object}
+ * @private
+ */
+fbapi._queryFromCache = function(fullPath) {
+  var results = fbapi._queryCache[fullPath];
+
+  if (results) {
+    // Remove the BaseUI id.
+    delete results.id;
+    results.accessToken = fbapi._accessToken;
+    results.uid = fbapi._uid;
+    return results;
+  }
+
+  if (!fu.env.runtime.USE_LOCAL_STORAGE) {
+    return null;
+  }
+
+  var storage = window['localStorage'];
+  goog.asserts.assert(!!storage, 'localStorage is not available');
+  goog.asserts.assert(!!fbapi._uid, 'uid is empty');
+
+  var key = fbapi._uid + '@' + fullPath;
+  var value;
+  try {
+    value = storage.getItem(key);
+    results = goog.json.parse(value);
+
+    if (results.cachedTime) {
+      var duration = goog.now() - results.cachedTime;
+      if (duration > fbapi.EXPIRE_LIMIT) {
+        fu.logger.log('fbapi._queryFromCache:expire', fullPath, duration);
+        storage.removeItem(key);
+        return null;
+      }
+    }
+
+  } catch(ex) {
+    fu.logger.log('localStorage:error', fullPath, ex);
+    return null;
+  }
+  fbapi._queryCache[fullPath] = results;
+  fu.logger.log('fbapi._queryFromCache', fullPath, results);
+  return fbapi._queryFromCache(fullPath);
+};
+
+
+/**
+ * @param {?string} fullPath
+ * @param {Object} results
+ */
+fbapi._saveToCache = function(fullPath, results) {
+  results.cachedTime = goog.now();
+
+  // Remove the BaseUI id.
+  delete results.id;
+  delete results.accessToken;
+  delete results.uid;
+  results.cachedTime = goog.now();
+
+  fbapi._queryCache[fullPath] = results;
+  if (!fu.env.runtime.USE_LOCAL_STORAGE) {
+    return;
+  }
+  var storage = window['localStorage'];
+  goog.asserts.assert(!!storage, 'localStorage is not available');
+  goog.asserts.assert(!!fbapi._uid, 'uid is empty');
+
+  var key = fbapi._uid + '@' + fullPath;
+
+  try {
+    storage.setItem(key, goog.json.serialize(results));
+  } catch(ex) {
+    fu.logger.log('fbapi._saveToCache:error', fullPath, ex);
+  }
+};
+
 
 if (!fu.env.runtime.USE_MOCK_DATA) {
   fbapi._install();

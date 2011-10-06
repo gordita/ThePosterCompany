@@ -2,6 +2,18 @@
   background: #fff;
 }
 
+.CSS_MAIN_VIEW:after {
+  -webkit-box-shadow: -2px 0 4px rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  clip: rect(0, 4px, auto, -10px);
+  content: '';
+  display: block;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 10px;
+}
+
 .CSS_MAIN_VIEW > .CSS_STACK_LAYOUT_HEAD {
   background: #222A3C;
 }

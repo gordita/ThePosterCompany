@@ -1,15 +1,19 @@
 goog.provide('fu.events.ClickInjector');
 
+goog.require('fu.async.Later');
 goog.require('fu.events');
 goog.require('fu.events.EventType');
 goog.require('goog.Disposable');
 goog.require('goog.Uri');
+goog.require('goog.dom.DomHelper');
 goog.require('goog.dom.NodeType');
+goog.require('goog.dom.TagName');
 goog.require('goog.dom.classes');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventType');
 goog.require('goog.math.Rect');
 goog.require('goog.math.Coordinate');
+goog.require('tpl.fu.CSSNames');
 
 
 /**
@@ -19,6 +23,8 @@ goog.require('goog.math.Coordinate');
  */
 fu.events.ClickInjector = function(target) {
   goog.base(this);
+
+  target.tabIndex = -1;
 
   /**
    * @type {Element}
@@ -33,24 +39,6 @@ fu.events.ClickInjector = function(target) {
   this._handler = new goog.events.EventHandler(this);
 
   /**
-   * @type {goog.math.Rect}
-   * @private
-   */
-  this._touchedRect = null;
-
-  /**
-   * @type {boolean}
-   * @private
-   */
-  this._preventClick = false;
-
-  /**
-   * @type {number}
-   * @private
-   */
-  this._touchedRectPadding = 5;
-
-  /**
    * @type {Element}
    * @private
    */
@@ -63,27 +51,70 @@ fu.events.ClickInjector = function(target) {
   this._attributeHref = null;
 
   /**
+   * @type {fu.async.Later}
+   * @private
+   */
+  this._later = new fu.async.Later(this);
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this._moved = false;
+
+  /**
+   * @private
+   * @type {goog.dom.DomHelper}
+   */
+  this._dom = new goog.dom.DomHelper(goog.dom.getOwnerDocument(target));
+
+  /**
+   * @private
+   * @type {goog.math.Coordinate}
+   */
+  this._touchedPoint = null;
+
+  /**
    * @type {?string}
    * @private
    */
   this._href = null;
 
+  /**
+   * @type {Element}
+   * @private
+   */
+  this._mask = null;
+
   this._handler.listen(
-    target,
+    this._target,
     fu.events.EventType.TOUCHSTART,
     this._onTouchStart);
 
   this._handler.listen(
-    target,
+    this._target,
+    fu.events.EventType.TOUCHMOVE,
+    this._onTouchMove);
+
+  this._handler.listen(
+    this._target,
     fu.events.EventType.TOUCHEND,
     this._onTouchEnd);
 
   this._handler.listen(
-    target,
+    this._target,
     goog.events.EventType.CLICK,
     this._onClick);
+
+  this._reset();
 };
 goog.inherits(fu.events.ClickInjector, goog.events.EventTarget);
+
+/**
+ * @type {number}
+ * @private
+ */
+fu.events.ClickInjector._CLICK_DELAY = 800;
 
 
 /**
@@ -91,18 +122,44 @@ goog.inherits(fu.events.ClickInjector, goog.events.EventTarget);
  */
 fu.events.ClickInjector.prototype.disposeInternal = function() {
   goog.base(this, 'disposeInternal');
+  this._reset();
   this._handler.dispose();
+  this._later.dispose();
 };
+
+
+/**
+ * @private
+ * @param {boolean} pressed
+ */
+fu.events.ClickInjector.prototype._setPressed = function(pressed) {
+  if (this._linkToClick) {
+    goog.dom.classes.enable(
+      this._linkToClick,
+      tpl.fu.CSSNames.CSS_PRESSED,
+      pressed);
+  }
+};
+
 
 /**
  * @private
  */
 fu.events.ClickInjector.prototype._reset = function() {
-  this._touchedRect = null;
-  this._preventClick = false;
+  if (this._linkToClick) {
+    if (this._attributeHref) {
+      this._linkToClick.setAttribute('href', this._attributeHref);
+    }
+    this._setPressed(false);
+  }
+  goog.dom.removeNode(this._mask);
+
+  this._later.clearAll();
   this._linkToClick = null;
   this._attributeHref = null;
+  this._touchedNode = null;
   this._href = null;
+  this._moved = false;
 };
 
 /**
@@ -111,78 +168,62 @@ fu.events.ClickInjector.prototype._reset = function() {
  */
 fu.events.ClickInjector.prototype._onTouchStart = function(evt) {
   this._reset();
-
-  var target = evt.target;
-  switch (target.nodeType) {
-    case goog.dom.NodeType.TEXT:
-      target = target.parentNode;
-      break;
-
-    case goog.dom.NodeType.ELEMENT:
-      break;
-
-    default:
-      return;
-  }
-
-  var el = /** @type {Element} */ (evt.target);
-  var n = 0;
-  var href = target.href;
-  while (n < 6 && el && !href) {
-    href = target.href;
-    if (href) {
-      break;
-    }
-    el = /** @type {Element} */ (el.parentNode);
-    n++;
-  }
-
-  if (!href) {
-    return;
-  }
-
-  this._href = href;
-  this._linkToClick = /** @type {Element} */ (el);
-  this._attributeHref = target.getAttribute('href');
-
-  var touch = fu.events.getTouch(evt);
-  var x = touch.clientX;
-  var y = touch.clientY;
-  var padding = this._touchedRectPadding;
-  this._touchedRect = new goog.math.Rect(
-    x - padding,
-    y - padding,
-    x + padding,
-    y + padding);
+  this._touchedNode = evt.target;
+  this._linkToClick = this._getTouchedLink(evt);
+  this._touchedPoint = fu.events.getTouchPagePosition(evt);
+  this._later.schedule(this._setPressed, 100, true);
 };
 
 /**
  * @param {goog.events.BrowserEvent} evt
  * @private
  */
+fu.events.ClickInjector.prototype._onTouchMove = function(evt) {
+  if (!this._moved) {
+    this._moved = true;
+    // this._setPressed(false);
+  }
+};
+
+
+/**
+ * @param {goog.events.BrowserEvent} evt
+ * @private
+ */
 fu.events.ClickInjector.prototype._onTouchEnd = function(evt) {
-  if (fu.events.isPrevented(evt)) {
-    this._reset();
-    return;
-  }
+  evt.preventDefault();
 
-  if (this._touchedRect) {
-    var touch = fu.events.getTouch(evt);
-    var x = touch.clientX;
-    var y = touch.clientY;
-    var point = new goog.math.Coordinate(x, y);
-    if (!this._touchedRect.contains(point)) {
-      return;
+  if (this._linkToClick) {
+    this._href = this._linkToClick.href;
+    this._attributeHref = this._linkToClick.getAttribute('href');
+    this._linkToClick.removeAttribute('href');
+
+    if (this._linkToClick.getAttribute('cmd') == 'toggle') {
+      var uri = new goog.Uri(this._href);
+      uri.setParameterValue('toggle', goog.now());
+      this._href = uri.toString();
     }
+
+    if (!this._moved && this._touchedNode == evt.target) {
+      this._later.clearAll();
+      this._setPressed(true);
+      var clickEvt = new fu.events.Event(fu.events.EventType.CLICK_HREF, this);
+      clickEvt.href = this._href;
+      this._later.schedule(this._setPressed, 1, false);
+      this._later.schedule(this.dispatchEvent, 100, clickEvt);
+    } else if (this._moved) {
+      this._later.clearAll();
+      this._setPressed(false);
+    }
+  } else if (!this._moved) {
+    // this._mask = this._dom.createDom('div', tpl.fu.CSSNames.CSS_CLICK_MASK);
+    // goog.dom.insertChildAt(this._target, this._mask, 0);
+    this._later.clearAll();
+    this._setPressed(false);
+    this.dispatchEvent(fu.events.EventType.CLICK_CONTENT);
   }
 
-  if (this._attributeHref && this._attributeHref.indexOf('#') !== 0) {
-    var evt2 = new fu.events.Event(fu.events.EventType.CLICK_HREF, this);
-    evt2.href = this._href;
-    this.dispatchEvent(evt2);
-    evt.preventDefault();
-    this._preventClick = true;
-  }
+  this._resetLater();
 };
 
 
@@ -191,13 +232,37 @@ fu.events.ClickInjector.prototype._onTouchEnd = function(evt) {
  * @private
  */
 fu.events.ClickInjector.prototype._onClick = function(evt) {
-  if (fu.events.isPrevented(evt)) {
-    this._reset();
-    return;
-  }
+  evt.preventDefault();
+  this._resetLater();
+};
 
-  if (this._preventClick) {
-    evt.preventDefault();
+/**
+ * @param {goog.events.BrowserEvent} evt
+ * @return {Element}
+ * @private
+ */
+fu.events.ClickInjector.prototype._getTouchedLink = function(evt) {
+  var n = 0;
+  var node = /** @type {Element} */ (evt.target);
+
+  while (n < 8 && node) {
+    switch (node.tagName) {
+      case goog.dom.TagName.INPUT:
+      case goog.dom.TagName.BUTTON:
+      case goog.dom.TagName.SELECT:
+        return null;
+      case goog.dom.TagName.A:
+        return /** @type {Element} */ node;
+    }
+    node = /** @type {Element} */ (node.parentNode);
+    n++;
   }
-  this._reset();
+  return null;
+};
+
+/**
+ * @private
+ */
+fu.events.ClickInjector.prototype._resetLater = function() {
+  this._later.schedule(this._reset, fu.events.ClickInjector._CLICK_DELAY);
 };

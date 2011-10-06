@@ -2,7 +2,7 @@ goog.provide('fu.ui.BaseAsyncUI');
 
 goog.require('fbapi');
 goog.require('fu.ui.BaseUI');
-
+goog.require('goog.asserts');
 
 /**
  * @extends {fu.ui.BaseUI}
@@ -69,8 +69,9 @@ fu.ui.BaseAsyncUI.prototype._onSuccess = function(response) {
     el.innerHTML = this.createAsyncTemplate(payload);
   }
 
-  this.getAsyncContentElement().appendChild(
-    this.getDom().getFirstElementChild(el));
+  var childEl = this.getDom().getFirstElementChild(el);
+  goog.asserts.assert(childEl && childEl.tagName, 'Child must be an element');
+  this.getAsyncContentElement().appendChild(childEl);
 };
 
 /**
