@@ -181,7 +181,7 @@ tpl.fu.app.fastweb.NewsFeed.videoItem_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.statusItem_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div class="', CSS_NEWS_FEED_LIST_ITEM_STATUS, '">', (opt_data.item['message']) ? soy.$$escapeHtml(opt_data.item['message']) : '', '</div>');
+  output.append('<div class="', CSS_NEWS_FEED_LIST_ITEM_STATUS, '">', (opt_data.item['message']) ? soy.$$escapeHtml(opt_data.item['message']) : (opt_data.item['story']) ? soy.$$escapeHtml(opt_data.item['story']) : '', '</div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -194,7 +194,7 @@ tpl.fu.app.fastweb.NewsFeed.statusItem_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.linkItem_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append((opt_data.item['message']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE + '">' + soy.$$escapeHtml(opt_data.item['message']) + '</div>' : '', (opt_data.item['description']) ? (opt_data.item['link']) ? '<div><a href="' + soy.$$escapeHtml(opt_data.item['link']) + '">' + soy.$$escapeHtml(opt_data.item['description']) + '</a></div>' : '' : '', (opt_data.item['caption']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_MINOR_TEXT + '">' + soy.$$escapeHtml(opt_data.item['caption']) + '</div>' : '');
+  output.append((opt_data.item['message']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE + '">' + soy.$$escapeHtml(opt_data.item['message']) + '</div>' : '', (opt_data.item['story']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE + '">' + soy.$$escapeHtml(opt_data.item['story']) + '</div>' : '', (opt_data.item['description']) ? (opt_data.item['link']) ? '<div><a href="' + soy.$$escapeHtml(opt_data.item['link']) + '">' + soy.$$escapeHtml(opt_data.item['description']) + '</a></div>' : '' : '', (opt_data.item['caption']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_MINOR_TEXT + '">' + soy.$$escapeHtml(opt_data.item['caption']) + '</div>' : '');
   if (!opt_sb) return output.toString();
 };
 
@@ -211,11 +211,11 @@ tpl.fu.app.fastweb.NewsFeed.photoItem_ = function(opt_data, opt_sb) {
     if (opt_data.item['name']) {
       output.append('<div><a href="', soy.$$escapeHtml(opt_data.item['link']), '">', soy.$$escapeHtml(opt_data.item['name']), '</a></div>');
       if (opt_data.item['properties']) {
-        var propertyList183 = opt_data.item['properties'];
-        var propertyListLen183 = propertyList183.length;
-        for (var propertyIndex183 = 0; propertyIndex183 < propertyListLen183; propertyIndex183++) {
-          var propertyData183 = propertyList183[propertyIndex183];
-          output.append((propertyData183['text']) ? ((propertyData183['name']) ? '<span>' + soy.$$escapeHtml(propertyData183['name']) + ' : </span>' : '') + ((propertyData183['href']) ? '<a href="' + soy.$$escapeHtml(propertyData183['href']) + '">' + soy.$$escapeHtml(propertyData183['text']) + '</a>' : soy.$$escapeHtml(propertyData183['text'])) + '<br />' : '');
+        var propertyList192 = opt_data.item['properties'];
+        var propertyListLen192 = propertyList192.length;
+        for (var propertyIndex192 = 0; propertyIndex192 < propertyListLen192; propertyIndex192++) {
+          var propertyData192 = propertyList192[propertyIndex192];
+          output.append((propertyData192['text']) ? ((propertyData192['name']) ? '<span>' + soy.$$escapeHtml(propertyData192['name']) + ' : </span>' : '') + ((propertyData192['href']) ? '<a href="' + soy.$$escapeHtml(propertyData192['href']) + '">' + soy.$$escapeHtml(propertyData192['text']) + '</a>' : soy.$$escapeHtml(propertyData192['text'])) + '<br />' : '');
         }
       }
     }

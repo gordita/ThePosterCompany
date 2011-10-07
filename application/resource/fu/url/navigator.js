@@ -32,6 +32,11 @@ goog.inherits(fu.url.Navigator, goog.events.EventTarget);
  */
 fu.url.Navigator.prototype.go = function(url) {
   var targetUri = new goog.Uri(url);
+  if (!targetUri.getDomain()) {
+    // Relative path, fix it.
+    targetUri = new goog.Uri(this._window.location.href);
+    targetUri.setPath(url.toString());
+  }
   var currentUri = fu.url.Dispatcher.resolve(this._window);
   // In-Site URL.
   if (targetUri.toString() == currentUri.toString()) {

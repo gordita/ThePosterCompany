@@ -162,15 +162,19 @@ fu.app.fastweb.Chrome.prototype._onClickContent = function(evt) {
  * @private
  */
 fu.app.fastweb.Chrome.prototype._onUriDispatch = function(evt) {
-  var openMainView = false;
+  var mainViewUrl;
   switch (evt.name) {
     case fu.app.fastweb.UrlMap.Action.SIDE_MENU:
-      this._showMenu = goog.isBoolean(this._showMenu) ?
-        !this._showMenu :
-        false;
+      if (!goog.isBoolean(this._showMenu)) {
+        this._showMenu = false;
+        this._navigator.go('/home');
+        return;
+      }
+      this._showMenu = !this._showMenu;
       break;
 
     default:
+      // Main View.
       this._showMenu = false;
       break;
   }

@@ -15,7 +15,7 @@ goog.require('soy.StringBuilder');
  */
 tpl.fu.app.fastweb.MainMenu.element = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '_element"  class="', CSS_MAIN_MENU, '"><div id="', soy.$$escapeHtml(opt_data.id), '_content"></div></div>');
+  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '_element"  class="', CSS_MAIN_MENU, ' ', CSS_PETER, '"><div id="', soy.$$escapeHtml(opt_data.id), '_content"></div></div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -39,22 +39,22 @@ tpl.fu.app.fastweb.MainMenu.asyncElement = function(opt_data, opt_sb) {
   if (opt_data.groups['data']) {
     if (opt_data.groups['data'].length > 0) {
       tpl.fu.app.fastweb.MainMenu.caption({text: 'Groups'}, output);
-      var groupList45 = opt_data.groups['data'];
-      var groupListLen45 = groupList45.length;
-      for (var groupIndex45 = 0; groupIndex45 < groupListLen45; groupIndex45++) {
-        var groupData45 = groupList45[groupIndex45];
-        tpl.fu.app.fastweb.MainMenu.user_item({user: groupData45, accessToken: opt_data.accessToken}, output);
+      var groupList47 = opt_data.groups['data'];
+      var groupListLen47 = groupList47.length;
+      for (var groupIndex47 = 0; groupIndex47 < groupListLen47; groupIndex47++) {
+        var groupData47 = groupList47[groupIndex47];
+        tpl.fu.app.fastweb.MainMenu.user_item({user: groupData47, accessToken: opt_data.accessToken}, output);
       }
     }
   }
   if (opt_data.friendlists['data']) {
     if (opt_data.friendlists['data'].length > 0) {
       tpl.fu.app.fastweb.MainMenu.caption({text: 'Lists'}, output);
-      var friendlistList56 = opt_data.friendlists['data'];
-      var friendlistListLen56 = friendlistList56.length;
-      for (var friendlistIndex56 = 0; friendlistIndex56 < friendlistListLen56; friendlistIndex56++) {
-        var friendlistData56 = friendlistList56[friendlistIndex56];
-        tpl.fu.app.fastweb.MainMenu.icon_item({icon: 'list', text: friendlistData56['name'], href: '/friendlist?id=' + friendlistData56['id']}, output);
+      var friendlistList58 = opt_data.friendlists['data'];
+      var friendlistListLen58 = friendlistList58.length;
+      for (var friendlistIndex58 = 0; friendlistIndex58 < friendlistListLen58; friendlistIndex58++) {
+        var friendlistData58 = friendlistList58[friendlistIndex58];
+        tpl.fu.app.fastweb.MainMenu.icon_item({icon: 'list', text: friendlistData58['name'], href: '/friendlist?id=' + friendlistData58['id']}, output);
       }
     }
   }

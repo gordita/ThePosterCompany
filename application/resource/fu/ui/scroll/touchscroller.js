@@ -122,7 +122,7 @@ fu.ui.scroll.TouchScroller.MAX_VELOCITY = 5;
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.TAU = 1 / 1000;  // (1/ms)
+fu.ui.scroll.TouchScroller.TAU = 1 / 800;  // (1/ms)
 
 /**
  * @const {number}
@@ -132,23 +132,23 @@ fu.ui.scroll.TouchScroller.DECELERATE_EPSILON = 3;
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.LIMIT_OFFSET = 80;
+fu.ui.scroll.TouchScroller.LIMIT_OFFSET = 20;
 
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.SPRING_EPSILON = 500;
+fu.ui.scroll.TouchScroller.SPRING_EPSILON = 6;
 
 
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.OMEGA = 1 / 100;
+fu.ui.scroll.TouchScroller.OMEGA = 1 / 64,
 
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL = 50;
+  fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL = 50;
 
 /**
  * @inheritDoc
@@ -409,17 +409,8 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
     var dx = context.currentTouchCoord.x - context.lastTouchCoord.x;
     var dy = context.currentTouchCoord.y - context.lastTouchCoord.y;
     var dt = context.currentTime - context.previousTime;
-
-    var velocity;
     var distance = this._horizontal ? dx : dy;
-    velocity = (distance / dt) || 1;
-    velocity *= Math.min(
-      1,
-      fu.ui.scroll.TouchScroller.MAX_VELOCITY / Math.abs(velocity));
-
-    // Do some fall off if the user holds in place after scrolling
-    velocity *= Math.max(0, 1 - (Date.now() - context.currentTime) / 50);
-
+    var velocity;
     if (this._snap) {
       if (this._horizontal) {
         var width = this._body.offsetWidth;
@@ -456,7 +447,7 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
 
     var x = this._x;
     var y = this._y;
-    var decelerated;
+    var no_bounce;
 
     if (goog.isNumber(context.snapX)) {
       x = context.snapX;
@@ -471,15 +462,25 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
     } else if (this._y > context.maxY) {
       y = context.maxY;
     } else {
-      decelerated = true;
-      this._decelerateTo(
-        this._x,
-        this._y,
-        -velocity,
-        context.previousTime);
+      no_bounce = true;
+      velocity = (distance / dt) || 1;
+      velocity *= Math.min(
+        1,
+        fu.ui.scroll.TouchScroller.MAX_VELOCITY / Math.abs(velocity));
+
+      // Do some fall off if the user holds in place after scrolling
+      velocity *= Math.max(0, 1 - (dt) / 250);
+
+      if (Math.abs(velocity) >= 1) {
+        this._decelerateTo(
+          this._x,
+          this._y,
+          -velocity,
+          context.previousTime);
+      }
     }
 
-    if (!decelerated) {
+    if (!no_bounce) {
       velocity = this._horizontal ?
         (x - this._x) :
         (y - this._y);
@@ -514,22 +515,21 @@ fu.ui.scroll.TouchScroller.prototype._decelerateTo = function(x, y, v,
   // The initial position (x, y) and the initial speed (v) is known,
   // need to figure out the end (x, y) and the time it takes to reduce
   // the speed to zero.
-  var tau = fu.ui.scroll.TouchScroller.TAU;
+  var tau = fu.ui.scroll.TouchScroller.TAU / (this._horizontal ? 2 : 1);
   var epsilon = fu.ui.scroll.TouchScroller.DECELERATE_EPSILON;
   var interval = fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL;
   var context = this._moveContext;
-  var v2 = Math.abs(v / 2);
   if (this._horizontal) {
     x = goog.math.clamp(
       x + v / tau,
-      context.minX - v2 * fu.ui.scroll.TouchScroller.LIMIT_OFFSET,
-      context.maxX + v2 * fu.ui.scroll.TouchScroller.LIMIT_OFFSET
+      context.minX - fu.ui.scroll.TouchScroller.LIMIT_OFFSET,
+      context.maxX + fu.ui.scroll.TouchScroller.LIMIT_OFFSET
     );
   } else {
     y = goog.math.clamp(
       y + v / tau,
-      context.minY - v2 * fu.ui.scroll.TouchScroller.LIMIT_OFFSET,
-      context.maxY + v2 * fu.ui.scroll.TouchScroller.LIMIT_OFFSET
+      context.minY - fu.ui.scroll.TouchScroller.LIMIT_OFFSET,
+      context.maxY + fu.ui.scroll.TouchScroller.LIMIT_OFFSET
     );
   }
 

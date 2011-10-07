@@ -20,5 +20,6 @@ fu.app.fastweb.UrlMap.Urls = [
   [/^\/requests/g, fu.app.fastweb.UrlMap.Action.TOP_POPUP],
   [/^\/inbox/g, fu.app.fastweb.UrlMap.Action.TOP_POPUP],
   [/^\/notifications/g, fu.app.fastweb.UrlMap.Action.TOP_POPUP],
+  [/^\/profile/g, fu.app.fastweb.UrlMap.Action.MAIN_VIEW],
   [/.*/g, fu.app.fastweb.UrlMap.Action.MAIN_VIEW]
 ];

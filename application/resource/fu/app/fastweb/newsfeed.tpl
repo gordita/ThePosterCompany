@@ -185,6 +185,8 @@
   <div class="{css CSS_NEWS_FEED_LIST_ITEM_STATUS}">
     {if $item['message']}
       {$item['message']}
+    {elseif $item['story']}
+      {$item['story']}
     {/if}
   </div>
 {/template}
@@ -198,6 +200,11 @@
   {if $item['message']}
     <div class="{css CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE}">
       {$item['message']}
+    </div>
+  {/if}
+  {if $item['story']}
+    <div class="{css CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE}">
+      {$item['story']}
     </div>
   {/if}
   {if $item['description']}
