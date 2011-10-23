@@ -16,12 +16,6 @@ fu.animator.BaseAnimator = function() {
   goog.base(this);
 
   /**
-   * @type {number}
-   * @private
-   */
-  this._timer = 0;
-
-  /**
    * @type {boolean}
    * @private
    */
@@ -101,7 +95,6 @@ fu.animator.BaseAnimator.prototype.play = function() {
  */
 fu.animator.BaseAnimator.prototype.stop = function() {
   if (this._playing) {
-    this._timer = 0;
     this._playing = false;
     if (this._later) {
       this._later.clearAll();

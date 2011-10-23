@@ -15,6 +15,7 @@ goog.require('tpl.fu.app.fastweb.MenuView');
 fu.app.fastweb.MainView = function() {
   goog.base(this);
   var topBar = new fu.app.fastweb.TopBar();
+
   this.addToHeader(topBar);
   this.addCssName(tpl.fu.CSSNames.CSS_MAIN_VIEW);
 

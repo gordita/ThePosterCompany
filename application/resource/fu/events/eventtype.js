@@ -25,6 +25,10 @@ fu.events.EventType = {
     'webkitTransitionEnd' :
     'transitionend',
 
+  ANIMATIONEND : fu.env.runtime.USE_WEBKIT_TRANSITION ?
+    'webkitAnimationEnd' :
+    'transitionend',
+
   ORIENTATION_CHANGE : fu.env.runtime.USE_ORIENTATION ?
     'orientationchange' :
     'resize',

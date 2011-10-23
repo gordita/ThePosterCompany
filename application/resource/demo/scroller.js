@@ -1,7 +1,6 @@
 goog.provide('demo.scroller');
 
 
-
 goog.require('fu.env.define');
 goog.require('fu.ui.scroll.TouchScroller');
 goog.require('goog.dom');
@@ -9,6 +8,7 @@ goog.require('goog.events.EventHandler');
 goog.require('soy');
 goog.require('tpl.fu.CSSNames');
 goog.require('tpl.demo.scroller');
+
 
 /**
  * Start

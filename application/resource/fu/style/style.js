@@ -7,13 +7,44 @@ goog.require('goog.math.Coordinate');
 
 
 /**
- * @param {Element} element
+ * @param {Element} el
+ * @param {string} name
+ * @param {number} duration
+ */
+fu.style.setAnimation = function(el, name, duration) {
+  var css = name + ' ' + duration + 'ms 1';
+  el.style['-webkit-animation-play-state'] = '';
+  el.style['-webkit-animation-timing-function'] = 'linear';
+  el.style['-webkit-animation'] = css;
+};
+
+
+/**
+ * @param {Element} el
+ */
+fu.style.removeAnimation = function(el) {
+  el.style['-webkit-animation'] = '';
+  el.style['-webkit-animation-play-state'] = '';
+  el.style['-webkit-animation-timing-function'] = '';
+};
+
+
+/**
+ * @param {Element} el
+ */
+fu.style.pauseAnimation = function(el) {
+  el.style['-webkit-animation-play-state'] = 'paused';
+};
+
+
+/**
+ * @param {Element} el
  * @param {number} x
  * @param {number} y
  */
-fu.style.setTranslate3d = function(element, x, y) {
+fu.style.setTranslate3d = function(el, x, y) {
   goog.asserts.assert(fu.env.runtime.USE_WEBKIT_CSS3D);
-  element.style['webkitTransform'] =
+  el.style['webkitTransform'] =
     'translate3d(' + x + 'px,' + y + 'px,0)';
 };
 

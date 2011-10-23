@@ -42,17 +42,8 @@ goog.inherits(fu.animator.Position, fu.animator.BaseAnimator);
 /**
  * @inheritDoc
  */
-fu.animator.Position.prototype.disposeInternal = function() {
-  goog.base(this, 'disposeInternal');
-};
-
-
-/**
- * @inheritDoc
- */
 fu.animator.Position.prototype.playInternal = function() {
   if (fu.env.runtime.USE_WEBKIT_TRANSITION) {
-
     this._transition = true;
 
     fu.style.setTransformTransition(

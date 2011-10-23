@@ -79,15 +79,16 @@
 --js application/resource/fu/app/fastweb/newsfeed.js
 --js application/resource/fu/layout/baselayout.js
 --js application/resource/fu/ui/scroll/scrollable.js
---js application/resource/fu/events/events.js
+--js application/resource/closure-lib/closure/goog/timer/timer.js
+--js application/resource/fu/async/later.js
+--js application/resource/fu/animator/baseanimator.js
 --js application/resource/fu/style/style.js
+--js application/resource/fu/animator/positions.js
+--js application/resource/fu/events/events.js
 --js application/resource/closure-lib/closure/goog/math/math.js
 --js application/resource/fu/ui/scroll/touchscroller.js
 --js application/resource/fu/layout/scroll.tpl.js
 --js application/resource/fu/layout/scroll.js
---js application/resource/closure-lib/closure/goog/timer/timer.js
---js application/resource/fu/async/later.js
---js application/resource/fu/animator/baseanimator.js
 --js application/resource/fu/animator/position.js
 --js application/resource/fu/layout/fullview.tpl.js
 --js application/resource/fu/layout/absolute.js
@@ -112,4 +113,4 @@
 --js application/resource/fu/url/navigator.js
 --js application/resource/fu/app/fastweb/chrome.js
 --js application/resource/demo/test.js
---module demo_test:114
+--module demo_test:115

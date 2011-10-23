@@ -1,10 +1,12 @@
 goog.provide('fu.ui.scroll.TouchScroller');
 
+goog.require('fu.animator.Positions');
 goog.require('fu.env.runtime');
 goog.require('fu.events');
 goog.require('fu.events.EventType');
 goog.require('fu.style');
 goog.require('fu.ui.scroll.Scrollable');
+goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.dom');
 goog.require('goog.math');
@@ -49,7 +51,6 @@ fu.ui.scroll.TouchScroller = function(ref) {
    * @private
    */
   this._doc = goog.dom.getOwnerDocument(this._el);
-
 
   /**
    * @type {Window}
@@ -117,45 +118,62 @@ fu.ui.scroll.TouchScroller.MIN_SCROLL_START_DELTA = 2;
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.MAX_VELOCITY = 5;
+fu.ui.scroll.TouchScroller.MAX_VELOCITY = 1.6;
 
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.TAU = 1 / 800;  // (1/ms)
-
-/**
- * @const {number}
- */
-fu.ui.scroll.TouchScroller.DECELERATE_EPSILON = 3;
-
-/**
- * @const {number}
- */
-fu.ui.scroll.TouchScroller.LIMIT_OFFSET = 20;
-
-/**
- * @const {number}
- */
-fu.ui.scroll.TouchScroller.SPRING_EPSILON = 6;
+fu.ui.scroll.TouchScroller.TAU = 1 / 600;  // (1/ms)
 
 
 /**
  * @const {number}
  */
-fu.ui.scroll.TouchScroller.OMEGA = 1 / 64,
+fu.ui.scroll.TouchScroller.ANIMATION_INTERVAL = 1000 / 25; // fps
 
 /**
  * @const {number}
  */
-  fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL = 50;
+fu.ui.scroll.TouchScroller.ANIMATION_RURATION_DIVIDER = 1.5;
+
+
+/**
+ * @const {number}
+ */
+fu.ui.scroll.TouchScroller.DECELERATE_EPSILON = 6;
+
+/**
+ * @const {number}
+ */
+fu.ui.scroll.TouchScroller.LIMIT_OFFSET = 50;
+
+/**
+ * @const {number}
+ */
+fu.ui.scroll.TouchScroller.SPRING_EPSILON = 1;
+
+
+/**
+ * @const {number}
+ */
+fu.ui.scroll.TouchScroller.OMEGA = 0.7 / 32;
+
+/**
+ * @const {number}
+ */
+fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL = 50;
 
 /**
  * @inheritDoc
  */
 fu.ui.scroll.TouchScroller.prototype.disposeInternal = function() {
   this._handler.dispose();
-  this._clearTransition();
+
+  if (this._moveContext && this._moveContext.animator) {
+    this._moveContext.animator.dispose();
+  }
+
+  this._stop();
 };
 
 /**
@@ -181,7 +199,7 @@ fu.ui.scroll.TouchScroller.prototype.scrollTo = function(x, y) {
   }
 
   if (this._moveContext.animating) {
-    this._clearTransition();
+    this._stop();
   }
 
   this._scrollTo(x, y);
@@ -236,12 +254,13 @@ fu.ui.scroll.TouchScroller.prototype._getMaxScrollTop = function() {
  * @param {number} y
  */
 fu.ui.scroll.TouchScroller.prototype._scrollTo = function(x, y) {
-  if (this._x === x && this._y === y) {
+  if (this._x === x && this._y === y && this._initialized) {
     return;
   }
+
   this._x = x;
   this._y = y;
-  this._translateTo(x, y);
+  this._translateTo(-x, -y);
 };
 
 
@@ -250,8 +269,6 @@ fu.ui.scroll.TouchScroller.prototype._scrollTo = function(x, y) {
  * @param {number} y
  */
 fu.ui.scroll.TouchScroller.prototype._translateTo = function(x, y) {
-  x = -x;
-  y = -y;
   fu.style.setTranslate3d(this._body, x, y);
 };
 
@@ -275,7 +292,8 @@ fu.ui.scroll.TouchScroller.prototype._listenStart = function() {
  * @private
  */
 fu.ui.scroll.TouchScroller.prototype._onStart = function(evt) {
-  this._clearTransition();
+  this._stop();
+
   if (fu.events.isPrevented(evt)) {
     return;
   }
@@ -283,13 +301,18 @@ fu.ui.scroll.TouchScroller.prototype._onStart = function(evt) {
   this._handler.removeAll();
 
   var coord = fu.events.getTouchPagePosition(evt);
-  var ctx = this._moveContext = {};
-  ctx.scrolling = false;
-  ctx.startTouchCoord = coord;
-  ctx.pageOffsetCoord = new goog.math.Coordinate(
+  var context = this._moveContext = {};
+  context.minX = 0;
+  context.minY = 0;
+  context.maxX = this._getMaxScrollLeft();
+  context.maxY = this._getMaxScrollTop();
+  context.scrolling = false;
+  context.startTouchCoord = coord;
+  context.pageOffsetCoord = new goog.math.Coordinate(
     window.pageXOffset,
     window.pageYOffset
   );
+
 
   this._handler.listen(
     this._doc.body,
@@ -318,6 +341,7 @@ fu.ui.scroll.TouchScroller.prototype._onStart = function(evt) {
 fu.ui.scroll.TouchScroller.prototype._onMove = function(evt) {
   var context = this._moveContext;
 
+
   if (fu.events.isPrevented(evt) ||
     context.pageOffsetCoord.x != window.pageXOffset ||
     context.pageOffsetCoord.y != window.pageYOffset) {
@@ -331,6 +355,8 @@ fu.ui.scroll.TouchScroller.prototype._onMove = function(evt) {
   var dy = coord.y - context.startTouchCoord.y;
   var abs_dx = Math.abs(dx);
   var abs_dy = Math.abs(dy);
+
+
   if (!context.scrolling) {
     if (this._horizontal) {
       if (abs_dx < fu.ui.scroll.TouchScroller.MIN_SCROLL_START_DELTA ||
@@ -343,10 +369,11 @@ fu.ui.scroll.TouchScroller.prototype._onMove = function(evt) {
         return;
       }
     }
+
+    // fu.style.removeAnimation(this._body);
+    // this._translateTo(-this._x, this._y);
+
     context.scrolling = true;
-    context.minX = context.minY = 0;
-    context.maxX = this._getMaxScrollLeft();
-    context.maxY = this._getMaxScrollTop();
     context.startX = this._x;
     context.startY = this._y;
 
@@ -403,6 +430,10 @@ fu.ui.scroll.TouchScroller.prototype._onMove = function(evt) {
 fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
   this._handler.removeAll();
   var context = this._moveContext;
+  var x = this._x;
+  var y = this._y;
+  var bounce_to = true;
+
   if (context.scrolling) {
     context.scrolling = false;
 
@@ -418,8 +449,8 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
         var snap_x;
         if (rx) {
           snap_x = dx < 0 ?
-            Math.ceil(this._x / width) * width :
-            Math.floor(this._x / width) * width;
+            Math.ceil((context.startX + 1) / width) * width :
+            Math.floor((context.startX - 1) / width) * width;
           context.snapX = goog.math.clamp(
             snap_x,
             context.minX,
@@ -433,8 +464,8 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
         var snap_y;
         if (ry) {
           snap_y = dy < 0 ?
-            Math.ceil(this._y / height) * height :
-            Math.floor(this._y / height) * height;
+            Math.ceil(context.startY / height) * height :
+            Math.floor(context.startY / height) * height;
           context.snapY = goog.math.clamp(
             snap_y,
             context.minY,
@@ -445,10 +476,14 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
       }
     }
 
-    var x = this._x;
-    var y = this._y;
-    var no_bounce;
 
+    velocity = (distance / dt) || 1;
+    velocity *= Math.min(
+      1,
+      fu.ui.scroll.TouchScroller.MAX_VELOCITY / Math.abs(velocity));
+
+    // Do some fall off if the user holds in place after scrolling
+    velocity *= Math.max(0, 1 - (dt) / 250);
     if (goog.isNumber(context.snapX)) {
       x = context.snapX;
     } else if (goog.isNumber(context.snapY)) {
@@ -462,35 +497,36 @@ fu.ui.scroll.TouchScroller.prototype._onEnd = function(evt) {
     } else if (this._y > context.maxY) {
       y = context.maxY;
     } else {
-      no_bounce = true;
-      velocity = (distance / dt) || 1;
-      velocity *= Math.min(
-        1,
-        fu.ui.scroll.TouchScroller.MAX_VELOCITY / Math.abs(velocity));
-
-      // Do some fall off if the user holds in place after scrolling
-      velocity *= Math.max(0, 1 - (dt) / 250);
-
+      bounce_to = false;
       if (Math.abs(velocity) >= 1) {
         this._decelerateTo(
           this._x,
           this._y,
-          -velocity,
-          context.previousTime);
+          -velocity);
       }
     }
-
-    if (!no_bounce) {
-      velocity = this._horizontal ?
-        (x - this._x) :
-        (y - this._y);
-      this._bounceTo(x, y, velocity);
-    }
-
     evt.preventDefault();
   } else {
+    velocity = 0;
+    if (this._horizontal && this._x < context.minX) {
+      x = context.minX;
+    } else if (this._horizontal && this._x > context.maxX) {
+      x = context.maxX;
+    } else if (this._y < context.minY) {
+      y = context.minY;
+    } else if (this._y > context.maxY) {
+      y = context.maxY;
+    } else {
+      bounce_to = false;
+    }
     this._moveContext = {};
   }
+
+  if (bounce_to && (this._x !== x || this._y !== y)) {
+    this._bounceTo(x, y, velocity);
+    evt.preventDefault();
+  }
+
   this._listenStart();
 };
 
@@ -505,176 +541,184 @@ fu.ui.scroll.TouchScroller.prototype._onClick = function(evt) {
 };
 
 /**
- * @param {number} x
- * @param {number} y
- * @param {number} v
- * @param {number} startTime
+ * @param {number} startX
+ * @param {number} startY
+ * @param {number} startV
  */
-fu.ui.scroll.TouchScroller.prototype._decelerateTo = function(x, y, v,
-                                                              startTime) {
-  // The initial position (x, y) and the initial speed (v) is known,
-  // need to figure out the end (x, y) and the time it takes to reduce
-  // the speed to zero.
-  var tau = fu.ui.scroll.TouchScroller.TAU / (this._horizontal ? 2 : 1);
-  var epsilon = fu.ui.scroll.TouchScroller.DECELERATE_EPSILON;
-  var interval = fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL;
-  var context = this._moveContext;
+fu.ui.scroll.TouchScroller.prototype._decelerateTo = function(startX, startY,
+                                                              startV) {
+  if (this._moveContext.animator) {
+    this._moveContext.animator.dispose();
+  }
+
+  var info = this._getDecelerateToInfo(startX, startY, startV);
+  var animator =
+    new fu.animator.Positions(this._body, info.coords, info.duration);
+  this._moveContext.animator = animator;
+  animator.play();
+};
+
+
+/**
+ * @param {number} endX
+ * @param {number} endY
+ * @param {number} startV
+ */
+fu.ui.scroll.TouchScroller.prototype._bounceTo = function(endX, endY, startV) {
+  if (this._moveContext.animator) {
+    this._moveContext.animator.dispose();
+  }
+
+  var info = this._getBounceToInfo(this._x, this._y, startV, endX, endY);
+  var animator =
+    new fu.animator.Positions(this._body, info.coords, info.duration);
+  this._moveContext.animator = animator;
+  animator.play();
+};
+
+
+/**
+ * @param {number} startX
+ * @param {number} startY
+ * @param {number} startV
+ * @return {Object}
+ * @private
+ */
+fu.ui.scroll.TouchScroller.prototype._getDecelerateToInfo = function(startX,
+                                                                     startY,
+                                                                     startV) {
+  var now = goog.now();
+  var startT = now;
+  var coords = [];
+  var interval = fu.ui.scroll.TouchScroller.ANIMATION_INTERVAL;
+  var tt, yy,  bounceInfo;
+  var x = startX;
+  var y = startY;
+  var tau = fu.ui.scroll.TouchScroller.TAU;
+
   if (this._horizontal) {
-    x = goog.math.clamp(
-      x + v / tau,
-      context.minX - fu.ui.scroll.TouchScroller.LIMIT_OFFSET,
-      context.maxX + fu.ui.scroll.TouchScroller.LIMIT_OFFSET
-    );
+    alert('todo:_decelerateTo:h');
   } else {
-    y = goog.math.clamp(
-      y + v / tau,
-      context.minY - fu.ui.scroll.TouchScroller.LIMIT_OFFSET,
-      context.maxY + fu.ui.scroll.TouchScroller.LIMIT_OFFSET
-    );
-  }
-
-  var position;
-  var duration = goog.now() - startTime;
-
-  do {
-    duration += interval;
-    position = v / tau * Math.exp(-tau * duration);
-  } while (Math.abs(position) > epsilon);
-
-  this._applyTransition(Math.round(x), Math.round(y), duration);
-};
-
-
-/**
- * @param {number} x
- * @param {number} y
- * @param {number} v
- */
-fu.ui.scroll.TouchScroller.prototype._bounceTo = function(x, y, v) {
-  // The end position (x, y) and the initial speed (v) is known,
-  // need to figure out the time it takes to get to the end point (x, y).
-  var interval = fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL;
-  var omega = fu.ui.scroll.TouchScroller.OMEGA;
-  var eps = fu.ui.scroll.TouchScroller.SPRING_EPSILON;
-  var start = this._horizontal ? this._x : this._y;
-  var end = this._horizontal ? x : y;
-  var distance = end - start;
-  var duration = 0;
-  var position;
-
-  do {
-    duration += interval;
-    position = (distance + (-v + distance * omega) * duration) *
-      Math.exp(-omega * duration);
-  } while (position && Math.abs(position) < eps);
-
-  this._applyTransition(x, y, duration);
-};
-
-/**
- * @param {number} x
- * @param {number} y
- * @param {number} duration
- * @private
- */
-fu.ui.scroll.TouchScroller.prototype._applyTransition = function(x, y,
-                                                                 duration) {
-  duration = goog.math.clamp(duration, 100, 1000);
-  this._handler.listenOnce(
-    this._body,
-    fu.events.EventType.TRANSITIONEND,
-    this._onTransitionEnd,
-    true);
-
-  fu.style.setTransformTransition(this._body, duration);
-  var context = this._moveContext;
-  context.animating = true;
-  context.animStartTime = goog.now();
-  context.animStartCoord = new goog.math.Coordinate(this._x, this._y);
-  context.transitionDuration = duration;
-  this._scrollTo(x, y);
-};
-
-/**
- * @param {boolean=} opt_finished
- * @private
- */
-fu.ui.scroll.TouchScroller.prototype._clearTransition = function(opt_finished) {
-  if (this._moveContext.animating) {
-    this._moveContext.animating = false;
-    if (!opt_finished) {
-      // Transition has been cancelled.
-      var coord = fu.style.getTranslatePosition(this._body);
-      var context = this._moveContext;
-      if (context.startTouchCoord) {
-        var duration = goog.now() - context.startTime;
-        var distance;
-        if (this._horizontal) {
-          distance = -coord.x - context.startX;
-        } else {
-          distance = -coord.y - context.startY;
-        }
-        var velocity = -distance / duration;
-        var timeLeft = Math.max(0, context.transitionDuration - duration);
-        var diff = velocity * timeLeft /
-          fu.ui.scroll.TouchScroller.TRANSITION_INTERNAL;
-        // On Webkit, the calculated "pos" is the position of the previous
-        // transition frame instead the one that is being rendered on screen.
-        // We need to add extra "diff" to get the current transition position.
-        if (this._horizontal) {
-          coord.x += Math.round(diff);
-        } else {
-          coord.y += Math.round(diff);
-        }
-      }
-      this._scrollTo(-coord.x, -coord.y);
-    }
-    fu.style.removeTransition(this._body);
-  }
-};
-
-/**
- * @private
- */
-fu.ui.scroll.TouchScroller.prototype._onTransitionEnd = function() {
-  if (this._moveContext.animating) {
-    var context = this._moveContext;
-    var distance = this._horizontal ?
-      this._x - context.animStartCoord.x :
-      this._y - context.animStartCoord.y;
-
-    var velocity = distance / (goog.now() - context.animStartTime);
-    var done = false;
-    var x = this._x;
-    var y = this._y;
-
-    if (goog.isNumber(context.snapX) || goog.isNumber(context.snapY)) {
-      // Already moved to the desired snap point.
-      // Clear the transition.
-      done = true;
-    } else if (this._horizontal && this._x < context.minX) {
-      x = context.minX;
-    } else if (this._horizontal && this._x > context.maxX) {
-      x = context.maxX;
-    } else if (this._y < context.minY) {
-      y = context.minY;
-    } else if (this._y > context.maxY) {
-      y = context.maxY;
-    } else {
-      done = true;
-    }
-    this._clearTransition(done);
-    if (!done) {
-      var velocity2 = this._horizontal ?
-        (x - this._x) :
-        (y - this._y);
-      velocity2 = velocity2 / 2;
-      if (Math.abs(velocity2) > Math.abs(velocity)) {
-        this._bounceTo(x, y, velocity2);
+    var minY = this._moveContext.minY;
+    var minYLimit = minY - fu.ui.scroll.TouchScroller.LIMIT_OFFSET;
+    var maxY = this._moveContext.maxY;
+    var maxYLimit = maxY + fu.ui.scroll.TouchScroller.LIMIT_OFFSET;
+    var endY = startY + startV / tau;
+    while (true) {
+      tt = now - startT;
+      yy = startV / tau * Math.exp(-tau * tt);
+      if (y < minYLimit || y > maxYLimit) {
+        yy = 0;
       } else {
-        this._bounceTo(x, y, velocity);
+        y = endY - yy;
+        coords.push(new goog.math.Coordinate(-x, -Math.round(y)));
+      }
+
+      if (Math.abs(yy) > fu.ui.scroll.TouchScroller.DECELERATE_EPSILON) {
+        now += interval; // fps = 24.
+      } else {
+        if (endY < minY) {
+          bounceInfo = this._getBounceToInfo(
+            startX,
+            y,
+            (y - minY) / interval,
+            startX,
+            minY,
+            true);
+        } else if (endY > maxY) {
+          bounceInfo = this._getBounceToInfo(
+            startX,
+            y,
+            (y - maxY) / interval,
+            startX,
+            maxY,
+            true);
+        }
+        break;
       }
     }
+  }
+
+  var duration = now - startT;
+  if (bounceInfo) {
+    coords = coords.concat(bounceInfo.coords);
+    duration += (bounceInfo.duration * 5 *
+      fu.ui.scroll.TouchScroller.ANIMATION_RURATION_DIVIDER);
+  }
+
+  return {
+    coords : coords,
+    duration:  duration / fu.ui.scroll.TouchScroller.ANIMATION_RURATION_DIVIDER
+  };
+};
+
+
+/**
+ * @param {number} startX
+ * @param {number} startY
+ * @param {number} startV
+ * @param {number} endX
+ * @param {number} endY
+ * @param {boolean=} opt_double
+ * @return {Object}
+ * @private
+ */
+fu.ui.scroll.TouchScroller.prototype._getBounceToInfo = function(startX, startY,
+                                                                 startV, endX,
+                                                                 endY,
+                                                                 opt_double) {
+  var now = goog.now();
+  var interval = fu.ui.scroll.TouchScroller.ANIMATION_INTERVAL;
+  var startT = now;
+  var omega = fu.ui.scroll.TouchScroller.OMEGA;
+  var x, y, tt;
+  var coords = [];
+  var coord;
+  var prevCoord;
+  if (this._horizontal) {
+    alert('todo:_bounceTo:h');
+  } else {
+    var startDeltaY = endY - startY;
+    x = endX;
+    var yy;
+    var next = true;
+    while (next) {
+      tt = now - startT;
+      yy = (startDeltaY + (startV + startDeltaY * omega) * tt) *
+        Math.exp(-omega * tt);
+      if (Math.abs(yy) < fu.ui.scroll.TouchScroller.SPRING_EPSILON) {
+        coord = new goog.math.Coordinate(-x, -Math.round(endY));
+        next = false;
+      } else {
+        y = endY - yy;
+        coord = new goog.math.Coordinate(-x, -Math.round(y));
+        now += interval;
+      }
+      if (prevCoord && opt_double) {
+        coords.push(new goog.math.Coordinate(coord.x, Math.round((prevCoord.y + coord.y) / 2)));
+      }
+      coords.push(coord);
+      prevCoord = coord;
+    }
+  }
+
+  var ruration = now - startT;
+  return {
+    coords : coords,
+    duration:  ruration / 2
+  };
+};
+
+
+/**
+ * @private
+ */
+fu.ui.scroll.TouchScroller.prototype._stop = function() {
+  if (this._moveContext.animator) {
+    this._moveContext.animator.dispose();
+    this._moveContext.animator = null;
+    var coord = fu.style.getTranslatePosition(this._body);
+    this._scrollTo(-coord.x, -coord.y);
   }
 };
 
