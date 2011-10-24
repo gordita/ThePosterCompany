@@ -110,15 +110,15 @@
  */
 {template .icon_ private="true"}
   {if $item['from']}
-    <img
+    <canvas
       class="{css CSS_NEWS_FEED_LIST_ITEM_ICON}"
       src="//graph.facebook.com/{$item['from']['id']}/picture"
-      alt=""/>
+      alt=""></canvas>
   {elseif $item['icon']}
-    <img
+    <canvas
       class="{css CSS_NEWS_FEED_LIST_ITEM_ICON}"
       src="{$item['icon']}"
-      alt=""/>
+      alt=""></canvas>
   {/if}
 {/template}
 
@@ -255,8 +255,9 @@
       <a
         href="{$item['link']}"
         class="{css CSS_NEWS_FEED_LIST_ITEM_PHOTO_LINK}">
-        <img src="{$item['picture']}"
-             class="{css CSS_NEWS_FEED_LIST_ITEM_PHOTO_IMG}" />
+        <canvas src="{$item['picture']}"
+             class="{css CSS_NEWS_FEED_LIST_ITEM_PHOTO_IMG}"></canvas>
+
       </a>
     {/if}
   {/if}

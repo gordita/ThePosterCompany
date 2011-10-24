@@ -114,7 +114,7 @@ tpl.fu.app.fastweb.NewsFeed.namelink_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.icon_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append((opt_data.item['from']) ? '<img class="' + CSS_NEWS_FEED_LIST_ITEM_ICON + '" src="//graph.facebook.com/' + soy.$$escapeHtml(opt_data.item['from']['id']) + '/picture" alt=""/>' : (opt_data.item['icon']) ? '<img class="' + CSS_NEWS_FEED_LIST_ITEM_ICON + '" src="' + soy.$$escapeHtml(opt_data.item['icon']) + '" alt=""/>' : '');
+  output.append((opt_data.item['from']) ? '<canvas class="' + CSS_NEWS_FEED_LIST_ITEM_ICON + '" src="//graph.facebook.com/' + soy.$$escapeHtml(opt_data.item['from']['id']) + '/picture" alt=""></canvas>' : (opt_data.item['icon']) ? '<canvas class="' + CSS_NEWS_FEED_LIST_ITEM_ICON + '" src="' + soy.$$escapeHtml(opt_data.item['icon']) + '" alt=""></canvas>' : '');
   if (!opt_sb) return output.toString();
 };
 
@@ -219,7 +219,7 @@ tpl.fu.app.fastweb.NewsFeed.photoItem_ = function(opt_data, opt_sb) {
         }
       }
     }
-    output.append((opt_data.item['picture']) ? '<a href="' + soy.$$escapeHtml(opt_data.item['link']) + '" class="' + CSS_NEWS_FEED_LIST_ITEM_PHOTO_LINK + '"><img src="' + soy.$$escapeHtml(opt_data.item['picture']) + '" class="' + CSS_NEWS_FEED_LIST_ITEM_PHOTO_IMG + '" /></a>' : '');
+    output.append((opt_data.item['picture']) ? '<a href="' + soy.$$escapeHtml(opt_data.item['link']) + '" class="' + CSS_NEWS_FEED_LIST_ITEM_PHOTO_LINK + '"><canvas src="' + soy.$$escapeHtml(opt_data.item['picture']) + '" class="' + CSS_NEWS_FEED_LIST_ITEM_PHOTO_IMG + '"></canvas></a>' : '');
   }
   if (!opt_sb) return output.toString();
 };

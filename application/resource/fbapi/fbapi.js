@@ -324,7 +324,8 @@ fbapi._queryMock = function(path) {
   var map = {
     'groups' : data.GroupsFeed,
     'friendlists' : data.FriendsList,
-    'me' : data.User
+    'me' : data.User,
+    'home' : data.NewsFeed
   };
   if (map[path]) {
     return callback.willSucceed(map[path]);

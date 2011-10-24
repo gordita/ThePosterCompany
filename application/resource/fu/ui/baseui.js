@@ -327,7 +327,6 @@ fu.ui.BaseUI.prototype.addChild = function(child) {
 
 /**
  * @param {boolean} captured
- * @protected
  */
 fu.ui.BaseUI.prototype.setEventsCaptured = function(captured) {
   if (this._eventsCaptured === captured) {

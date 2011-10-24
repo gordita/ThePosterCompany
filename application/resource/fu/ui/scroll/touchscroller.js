@@ -550,7 +550,6 @@ fu.ui.scroll.TouchScroller.prototype._decelerateTo = function(startX, startY,
   if (this._moveContext.animator) {
     this._moveContext.animator.dispose();
   }
-
   var info = this._getDecelerateToInfo(startX, startY, startV);
   var animator =
     new fu.animator.Positions(this._body, info.coords, info.duration);

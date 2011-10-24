@@ -191,4 +191,5 @@ fu.app.fastweb.Chrome.prototype._updateViews = function() {
   } else {
     this._mainView.moveTo(0, 0);
   }
+  this._menuView.setEventsCaptured(!!this._showMenu);
 };

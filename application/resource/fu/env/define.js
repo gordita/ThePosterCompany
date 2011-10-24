@@ -40,7 +40,7 @@ fu.env.define.ENABLE_LOGGER = true;
 /**
  * @define {boolean}
  */
-fu.env.define.USE_MOCK_DATA = false;
+fu.env.define.USE_MOCK_DATA = true;
 
 /**
  * @define {boolean}

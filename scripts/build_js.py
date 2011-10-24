@@ -13,6 +13,7 @@ DEFAULT_FLAGS = EXTERN_FLAGS + [
   '--define=goog.userAgent.ASSUME_WEBKIT',
   #  '--define=hw.config.BUILD_TIME=%s' % round(time.time()),
   '--define=fu.env.define.ENABLE_LOGGER=false',
+  '--define=fu.env.define.USE_MOCK_DATA=false',
   '--define=COMPILED',
   ]
 
