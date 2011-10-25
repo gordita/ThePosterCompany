@@ -15,7 +15,7 @@ goog.require('soy.StringBuilder');
  */
 tpl.fu.app.fastweb.MainMenu.element = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '_element"  class="', CSS_MAIN_MENU, '"><div id="', soy.$$escapeHtml(opt_data.id), '_content"></div></div>');
+  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '_element"  class="CSS_MAIN_MENU"><div id="', soy.$$escapeHtml(opt_data.id), '_content"></div></div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -65,7 +65,7 @@ tpl.fu.app.fastweb.MainMenu.asyncElement = function(opt_data, opt_sb) {
   tpl.fu.app.fastweb.MainMenu.link_item({href: '/privacy_settings', text: 'Privacy Settings'}, output);
   tpl.fu.app.fastweb.MainMenu.link_item({href: '/report_bug', text: 'Report a Bug'}, output);
   tpl.fu.app.fastweb.MainMenu.link_item({href: '/log_out', text: 'Log Out'}, output);
-  output.append('<div class="', CSS_MAIN_MENU_FOOTER, ' ', CSS_MAIN_MENU_ITEM, '"><a href="#" class="', CSS_LINK, '">English(US)</a> &#183; <a href="#" class="', CSS_LINK, '">Help</a> &#183; <a href="#" class="', CSS_LINK, '">Desktop Site</a> &#183; <b><a href="#" class="', CSS_LINK, '">Facebook &copy; 2011</a></b></div></div>');
+  output.append('<div class="CSS_MAIN_MENU_FOOTER CSS_MAIN_MENU_ITEM"><a href="#" class="CSS_LINK">English(US)</a> &#183; <a href="#" class="CSS_LINK">Help</a> &#183; <a href="#" class="CSS_LINK">Desktop Site</a> &#183; <b><a href="#" class="CSS_LINK">Facebook &copy; 2011</a></b></div></div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -78,7 +78,7 @@ tpl.fu.app.fastweb.MainMenu.asyncElement = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.MainMenu.caption = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div class="', CSS_MAIN_MENU_CAPTION, ' ', CSS_MAIN_MENU_ITEM, '">', soy.$$escapeHtml(opt_data.text), '</div>');
+  output.append('<div class="CSS_MAIN_MENU_CAPTION CSS_MAIN_MENU_ITEM">', soy.$$escapeHtml(opt_data.text), '</div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -91,7 +91,7 @@ tpl.fu.app.fastweb.MainMenu.caption = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.MainMenu.link_item = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<a href="', soy.$$escapeHtml(opt_data.href), '" class="', CSS_MAIN_MENU_LINK_ITEM, ' ', CSS_MAIN_MENU_ITEM, '">', soy.$$escapeHtml(opt_data.text), '</a>');
+  output.append('<a href="', soy.$$escapeHtml(opt_data.href), '" class="CSS_MAIN_MENU_LINK_ITEM CSS_MAIN_MENU_ITEM">', soy.$$escapeHtml(opt_data.text), '</a>');
   if (!opt_sb) return output.toString();
 };
 
@@ -104,13 +104,13 @@ tpl.fu.app.fastweb.MainMenu.link_item = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.MainMenu.user_item = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<a href="/profile/', soy.$$escapeHtml(opt_data.user['id']), '" class="', CSS_MAIN_MENU_ICON_ITEM, ' ', CSS_MAIN_MENU_ITEM, '"><div class="', CSS_MAIN_MENU_ITEM_START, '">');
+  output.append('<a href="/profile/', soy.$$escapeHtml(opt_data.user['id']), '" class="CSS_MAIN_MENU_ICON_ITEM CSS_MAIN_MENU_ITEM"><div class="CSS_MAIN_MENU_ITEM_START">');
   if (opt_data.user['id']) {
     tpl.fu.app.fastweb.MainMenu.user_icon({uid: opt_data.user['id'], accessToken: opt_data.accessToken}, output);
   } else if (opt_data.user['uid']) {
     tpl.fu.app.fastweb.MainMenu.user_icon({uid: opt_data.user['uid'], accessToken: opt_data.accessToken}, output);
   }
-  output.append('</div><div class="', CSS_MAIN_MENU_ITEM_MID, '"><div class="', CSS_MAIN_MENU_ITEM_TEXT, '">', soy.$$escapeHtml(opt_data.user['name']), '</div></div>', (opt_data.user['unread']) ? '<div class="' + CSS_MAIN_MENU_ITEM_END + '"><div class="' + CSS_MAIN_MENU_ITEM_COUNT + '">' + soy.$$escapeHtml(opt_data.user['unread']) + '</div></div>' : '', '</a>');
+  output.append('</div><div class="CSS_MAIN_MENU_ITEM_MID"><div class="CSS_MAIN_MENU_ITEM_TEXT">', soy.$$escapeHtml(opt_data.user['name']), '</div></div>', (opt_data.user['unread']) ? '<div class="CSS_MAIN_MENU_ITEM_END"><div class="CSS_MAIN_MENU_ITEM_COUNT">' + soy.$$escapeHtml(opt_data.user['unread']) + '</div></div>' : '', '</a>');
   if (!opt_sb) return output.toString();
 };
 
@@ -123,7 +123,7 @@ tpl.fu.app.fastweb.MainMenu.user_item = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.MainMenu.icon_item = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<a href="', soy.$$escapeHtml(opt_data.href), '" class="', CSS_MAIN_MENU_ICON_ITEM, ' ', CSS_MAIN_MENU_ITEM, '"><div class="', CSS_MAIN_MENU_ITEM_START, '"><div class="', CSS_ICON, ' ', soy.$$escapeHtml(opt_data.icon), '"></div></div><div class="', CSS_MAIN_MENU_ITEM_MID, '"><div class="', CSS_MAIN_MENU_ITEM_TEXT, '">', soy.$$escapeHtml(opt_data.text), '</div></div>', (opt_data.count > 0) ? '<div class="' + CSS_MAIN_MENU_ITEM_END + '"><div class="' + CSS_MAIN_MENU_ITEM_COUNT + '">' + soy.$$escapeHtml(opt_data.count) + '</div></div>' : '', '</a>');
+  output.append('<a href="', soy.$$escapeHtml(opt_data.href), '" class="CSS_MAIN_MENU_ICON_ITEM CSS_MAIN_MENU_ITEM"><div class="CSS_MAIN_MENU_ITEM_START"><div class="CSS_ICON ', soy.$$escapeHtml(opt_data.icon), '"></div></div><div class="CSS_MAIN_MENU_ITEM_MID"><div class="CSS_MAIN_MENU_ITEM_TEXT">', soy.$$escapeHtml(opt_data.text), '</div></div>', (opt_data.count > 0) ? '<div class="CSS_MAIN_MENU_ITEM_END"><div class="CSS_MAIN_MENU_ITEM_COUNT">' + soy.$$escapeHtml(opt_data.count) + '</div></div>' : '', '</a>');
   if (!opt_sb) return output.toString();
 };
 
@@ -136,6 +136,6 @@ tpl.fu.app.fastweb.MainMenu.icon_item = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.MainMenu.user_icon = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div class="', CSS_ICON, '" style="background-image:url( https://graph.facebook.com/', soy.$$escapeHtml(opt_data.uid), '/picture?access_token=', soy.$$escapeHtml(opt_data.accessToken), ')"></div>');
+  output.append('<div class="CSS_ICON" style="background-image:url( https://graph.facebook.com/', soy.$$escapeHtml(opt_data.uid), '/picture?access_token=', soy.$$escapeHtml(opt_data.accessToken), ')"></div>');
   if (!opt_sb) return output.toString();
 };

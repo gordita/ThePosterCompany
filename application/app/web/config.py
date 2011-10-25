@@ -1,5 +1,5 @@
 # Generated file. DO NOT EDIT
-COMPILED = True
+COMPILED = 0
 CSS_FILES = [
 '/resource/css/reset.css',
 '/resource/css/base.css',

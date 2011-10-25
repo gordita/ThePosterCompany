@@ -50,9 +50,9 @@ tpl.fu.app.fastweb.NewsFeed.listItems_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.listitem_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<li class="', CSS_NEWS_FEED_LIST_ITEM, '"><div class="', CSS_NEWS_FEED_LIST_ITEM_GRID, '"><div class="', CSS_NEWS_FEED_LIST_ITEM_ROW, '"><div class="', CSS_NEWS_FEED_LIST_ITEM_SIDE, '">');
+  output.append('<li class="CSS_NEWS_FEED_LIST_ITEM"><div class="CSS_NEWS_FEED_LIST_ITEM_GRID"><div class="CSS_NEWS_FEED_LIST_ITEM_ROW"><div class="CSS_NEWS_FEED_LIST_ITEM_SIDE">');
   tpl.fu.app.fastweb.NewsFeed.icon_(opt_data, output);
-  output.append('</div><div class="', CSS_NEWS_FEED_LIST_ITEM_CONTEXT, '">');
+  output.append('</div><div class="CSS_NEWS_FEED_LIST_ITEM_CONTEXT">');
   tpl.fu.app.fastweb.NewsFeed.likeOrComment_(opt_data, output);
   tpl.fu.app.fastweb.NewsFeed.namelink_(opt_data, output);
   tpl.fu.app.fastweb.NewsFeed.itemContent_(opt_data, output);
@@ -71,7 +71,7 @@ tpl.fu.app.fastweb.NewsFeed.likeOrComment_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
   if (opt_data.item['actions']) {
     if (opt_data.item['actions'].length == 2) {
-      output.append('<div tabindex="1" cmd="like_or_comment" class="', CSS_NEWS_FEED_LIST_ITEM_LIKE_OR_RESPOND, '">');
+      output.append('<div tabindex="1" cmd="like_or_comment" class="CSS_NEWS_FEED_LIST_ITEM_LIKE_OR_RESPOND">');
       tpl.fu.app.fastweb.NewsFeed.likeOrCommentActions_(opt_data, output);
       output.append('</div>');
     }
@@ -88,7 +88,7 @@ tpl.fu.app.fastweb.NewsFeed.likeOrComment_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.likeOrCommentActions_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div class="', CSS_NEWS_FEED_LIST_ITEM_LIKE_OR_RESPOND_POPUP, '"><a cmd="', soy.$$escapeHtml(opt_data.item['actions'][1]['name']), '" debug-href="', soy.$$escapeHtml(opt_data.item['actions'][1]['link']), '" class="', LIKE_BUTTON, ' ', ICON_BUTTON, '">Like</a><a cmd="', soy.$$escapeHtml(opt_data.item['actions'][0]['name']), '" debug-href="', soy.$$escapeHtml(opt_data.item['actions'][0]['link']), '" class="', ICON_BUTTON, '">Comment</a><i class="', CSS_SHADOW_LEFT, '"></i><i class="', CSS_SHADOW_RIGHT, '"></i></div>');
+  output.append('<div class="CSS_NEWS_FEED_LIST_ITEM_LIKE_OR_RESPOND_POPUP"><a cmd="', soy.$$escapeHtml(opt_data.item['actions'][1]['name']), '" debug-href="', soy.$$escapeHtml(opt_data.item['actions'][1]['link']), '" class="LIKE_BUTTON ICON_BUTTON">Like</a><a cmd="', soy.$$escapeHtml(opt_data.item['actions'][0]['name']), '" debug-href="', soy.$$escapeHtml(opt_data.item['actions'][0]['link']), '" class="ICON_BUTTON">Comment</a><i class="CSS_SHADOW_LEFT"></i><i class="CSS_SHADOW_RIGHT"></i></div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -101,7 +101,7 @@ tpl.fu.app.fastweb.NewsFeed.likeOrCommentActions_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.namelink_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append((opt_data.item['from']) ? '<a href="//www.facebook.com/profile.php?id=' + soy.$$escapeHtml(opt_data.item['from']['id']) + '" class="' + CSS_NEWS_FEED_LIST_ITEM_NAME_LINK + '">' + soy.$$escapeHtml(opt_data.item['from']['name']) + '</a>' : '');
+  output.append((opt_data.item['from']) ? '<a href="//www.facebook.com/profile.php?id=' + soy.$$escapeHtml(opt_data.item['from']['id']) + '" class="CSS_NEWS_FEED_LIST_ITEM_NAME_LINK">' + soy.$$escapeHtml(opt_data.item['from']['name']) + '</a>' : '');
   if (!opt_sb) return output.toString();
 };
 
@@ -114,7 +114,7 @@ tpl.fu.app.fastweb.NewsFeed.namelink_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.icon_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append((opt_data.item['from']) ? '<canvas class="' + CSS_NEWS_FEED_LIST_ITEM_ICON + '" src="//graph.facebook.com/' + soy.$$escapeHtml(opt_data.item['from']['id']) + '/picture" alt=""></canvas>' : (opt_data.item['icon']) ? '<canvas class="' + CSS_NEWS_FEED_LIST_ITEM_ICON + '" src="' + soy.$$escapeHtml(opt_data.item['icon']) + '" alt=""></canvas>' : '');
+  output.append((opt_data.item['from']) ? '<canvas class="CSS_NEWS_FEED_LIST_ITEM_ICON" src="//graph.facebook.com/' + soy.$$escapeHtml(opt_data.item['from']['id']) + '/picture" alt=""></canvas>' : (opt_data.item['icon']) ? '<canvas class="CSS_NEWS_FEED_LIST_ITEM_ICON" src="' + soy.$$escapeHtml(opt_data.item['icon']) + '" alt=""></canvas>' : '');
   if (!opt_sb) return output.toString();
 };
 
@@ -127,7 +127,7 @@ tpl.fu.app.fastweb.NewsFeed.icon_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.cssImage_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<span class="', CSS_IMAGE, '" style="background-image:url(', soy.$$escapeHtml(opt_data.src), ')"></span>');
+  output.append('<span class="CSS_IMAGE" style="background-image:url(', soy.$$escapeHtml(opt_data.src), ')"></span>');
   if (!opt_sb) return output.toString();
 };
 
@@ -168,7 +168,7 @@ tpl.fu.app.fastweb.NewsFeed.itemContent_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.videoItem_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div class="', CSS_NEWS_FEED_LIST_ITEM_VIDEO, '"><h4><a href="', soy.$$escapeHtml(opt_data.item['source']), '">', soy.$$escapeHtml(opt_data.item['name']), '</a></h4>', (opt_data.item['caption']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_MINOR_TEXT + '">' + soy.$$escapeHtml(opt_data.item['caption']) + '</div>' : '', (opt_data.item['description']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_VIDEO_DESCRIPTION + '">' + soy.$$escapeHtml(opt_data.item['description']) + '</div>' : '', '</div>');
+  output.append('<div class="CSS_NEWS_FEED_LIST_ITEM_VIDEO"><h4><a href="', soy.$$escapeHtml(opt_data.item['source']), '">', soy.$$escapeHtml(opt_data.item['name']), '</a></h4>', (opt_data.item['caption']) ? '<div class="CSS_NEWS_FEED_LIST_ITEM_MINOR_TEXT">' + soy.$$escapeHtml(opt_data.item['caption']) + '</div>' : '', (opt_data.item['description']) ? '<div class="CSS_NEWS_FEED_LIST_ITEM_VIDEO_DESCRIPTION">' + soy.$$escapeHtml(opt_data.item['description']) + '</div>' : '', '</div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -181,7 +181,7 @@ tpl.fu.app.fastweb.NewsFeed.videoItem_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.statusItem_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div class="', CSS_NEWS_FEED_LIST_ITEM_STATUS, '">', (opt_data.item['message']) ? soy.$$escapeHtml(opt_data.item['message']) : (opt_data.item['story']) ? soy.$$escapeHtml(opt_data.item['story']) : '', '</div>');
+  output.append('<div class="CSS_NEWS_FEED_LIST_ITEM_STATUS">', (opt_data.item['message']) ? soy.$$escapeHtml(opt_data.item['message']) : (opt_data.item['story']) ? soy.$$escapeHtml(opt_data.item['story']) : '', '</div>');
   if (!opt_sb) return output.toString();
 };
 
@@ -194,7 +194,7 @@ tpl.fu.app.fastweb.NewsFeed.statusItem_ = function(opt_data, opt_sb) {
  */
 tpl.fu.app.fastweb.NewsFeed.linkItem_ = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append((opt_data.item['message']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE + '">' + soy.$$escapeHtml(opt_data.item['message']) + '</div>' : '', (opt_data.item['story']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE + '">' + soy.$$escapeHtml(opt_data.item['story']) + '</div>' : '', (opt_data.item['description']) ? (opt_data.item['link']) ? '<div><a href="' + soy.$$escapeHtml(opt_data.item['link']) + '">' + soy.$$escapeHtml(opt_data.item['description']) + '</a></div>' : '' : '', (opt_data.item['caption']) ? '<div class="' + CSS_NEWS_FEED_LIST_ITEM_MINOR_TEXT + '">' + soy.$$escapeHtml(opt_data.item['caption']) + '</div>' : '');
+  output.append((opt_data.item['message']) ? '<div class="CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE">' + soy.$$escapeHtml(opt_data.item['message']) + '</div>' : '', (opt_data.item['story']) ? '<div class="CSS_NEWS_FEED_LIST_ITEM_LINK_MESSAGE">' + soy.$$escapeHtml(opt_data.item['story']) + '</div>' : '', (opt_data.item['description']) ? (opt_data.item['link']) ? '<div><a href="' + soy.$$escapeHtml(opt_data.item['link']) + '">' + soy.$$escapeHtml(opt_data.item['description']) + '</a></div>' : '' : '', (opt_data.item['caption']) ? '<div class="CSS_NEWS_FEED_LIST_ITEM_MINOR_TEXT">' + soy.$$escapeHtml(opt_data.item['caption']) + '</div>' : '');
   if (!opt_sb) return output.toString();
 };
 
@@ -219,7 +219,7 @@ tpl.fu.app.fastweb.NewsFeed.photoItem_ = function(opt_data, opt_sb) {
         }
       }
     }
-    output.append((opt_data.item['picture']) ? '<a href="' + soy.$$escapeHtml(opt_data.item['link']) + '" class="' + CSS_NEWS_FEED_LIST_ITEM_PHOTO_LINK + '"><canvas src="' + soy.$$escapeHtml(opt_data.item['picture']) + '" class="' + CSS_NEWS_FEED_LIST_ITEM_PHOTO_IMG + '"></canvas></a>' : '');
+    output.append((opt_data.item['picture']) ? '<a href="' + soy.$$escapeHtml(opt_data.item['link']) + '" class="CSS_NEWS_FEED_LIST_ITEM_PHOTO_LINK"><canvas src="' + soy.$$escapeHtml(opt_data.item['picture']) + '" class="CSS_NEWS_FEED_LIST_ITEM_PHOTO_IMG"></canvas></a>' : '');
   }
   if (!opt_sb) return output.toString();
 };

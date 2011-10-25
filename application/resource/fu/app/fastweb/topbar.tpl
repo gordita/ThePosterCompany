@@ -7,7 +7,7 @@
 {template .element}
 <div id="{$id}" class="{css CSS_TOP_BAR}">
   <div class="{css CSS_GROUP_START}">
-    <a href="/menu" class="{css CSS_TOP_BAR_ICON_MENU}">
+    <a href="#" class="{css CSS_TOP_BAR_ICON_MENU}" id="{$id}_menu">
       menu
     </a>
   </div>

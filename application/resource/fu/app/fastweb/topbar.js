@@ -1,5 +1,7 @@
 goog.provide('fu.app.fastweb.TopBar');
 
+goog.require('fu.app.fastweb.PubSub');
+goog.require('fu.app.fastweb.PubSub.Topic');
 goog.require('fu.events.EventType');
 goog.require('fu.ui.BaseUI');
 goog.require('goog.Uri');
@@ -14,6 +16,12 @@ goog.require('tpl.fu.app.fastweb.TopBar');
  */
 fu.app.fastweb.TopBar = function() {
   goog.base(this);
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this._menuOpened = false;
 };
 goog.inherits(fu.app.fastweb.TopBar, fu.ui.BaseUI);
 
@@ -26,7 +34,7 @@ fu.app.fastweb.TopBar.prototype.createTemplate = function(payload) {
 fu.app.fastweb.TopBar.prototype.captureEvents = function() {
   goog.base(this, 'captureEvents');
   this.getHandler().listen(
-    this.getElement(),
+    this.getInnerElement('menu'),
     fu.events.EventType.TOUCHSTART,
     this._onTouchStart,
     true);
@@ -39,6 +47,13 @@ fu.app.fastweb.TopBar.prototype.captureEvents = function() {
 fu.app.fastweb.TopBar.prototype._onTouchStart = function(evt) {
   var target = evt.target;
   if (target.href) {
-    target.setAttribute('cmd', 'toggle');
+    switch (target) {
+      case this.getInnerElement('menu'):
+        this._menuOpened = !this._menuOpened;
+        fu.app.fastweb.PubSub.publish(
+          fu.app.fastweb.PubSub.Topic.MAIN_MENU_TOGGLE,
+          this._menuOpened);
+        break;
+    }
   }
 };

@@ -15,6 +15,6 @@ goog.require('soy.StringBuilder');
  */
 tpl.fu.layout.Scroll.element = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '" class="', CSS_LAYOUT_SCROLL, '"><div id="', soy.$$escapeHtml(opt_data.id), '_content" class="', CSS_LAYOUT_SCROLL_CONTENT, '"></div></div>');
+  output.append('<div id="', soy.$$escapeHtml(opt_data.id), '" class="CSS_LAYOUT_SCROLL"><div id="', soy.$$escapeHtml(opt_data.id), '_content" class="CSS_LAYOUT_SCROLL_CONTENT"></div></div>');
   if (!opt_sb) return output.toString();
 };

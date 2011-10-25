@@ -3,6 +3,8 @@ goog.provide('fu.app.fastweb.Chrome');
 goog.require('fbapi');
 goog.require('fu.app.fastweb.MainView');
 goog.require('fu.app.fastweb.MenuView');
+goog.require('fu.app.fastweb.PubSub');
+goog.require('fu.app.fastweb.PubSub.Topic');
 goog.require('fu.app.fastweb.UrlMap');
 goog.require('fu.dom.ViewportSizeMonitor');
 goog.require('fu.events.ClickInjector');
@@ -63,10 +65,10 @@ fu.app.fastweb.Chrome = function() {
   this._dispatcher = new fu.url.Dispatcher(this._dom.getWindow());
 
   /**
-   * @type {?boolean}
+   * @type {boolean}
    * @private
    */
-  this._showMenu = null;
+  this._menuOpened = false;
 
   fbapi.checkLogin().then(goog.bind(function(pass) {
     if (!pass) {
@@ -112,6 +114,14 @@ fu.app.fastweb.Chrome.prototype._registerUrls = function() {
  * @private
  */
 fu.app.fastweb.Chrome.prototype._bindEvents = function() {
+
+  fu.app.fastweb.PubSub.subscribe(
+    fu.app.fastweb.PubSub.Topic.MAIN_MENU_TOGGLE,
+    function(menuOpened) {
+      this._menuOpened = menuOpened;
+      this._updateViews();
+    }, this);
+
   this._handler.listen(
     this._clickInjector,
     fu.events.EventType.CLICK_CONTENT,
@@ -122,10 +132,10 @@ fu.app.fastweb.Chrome.prototype._bindEvents = function() {
     fu.events.EventType.CLICK_HREF,
     this._onClickHref);
 
-  this._handler.listen(
-    this._dispatcher,
-    fu.events.EventType.URL_DISPATCH,
-    this._onUriDispatch);
+//  this._handler.listen(
+//    this._dispatcher,
+//    fu.events.EventType.URL_DISPATCH,
+//    this._onUriDispatch);
 
   this._handler.listen(
     this._menuView,
@@ -157,36 +167,24 @@ fu.app.fastweb.Chrome.prototype._onClickContent = function(evt) {
   fu.dom.ViewportSizeMonitor.getInstance().hideAddressBar();
 };
 
-/**
- * @param {fu.events.Event} evt
- * @private
- */
-fu.app.fastweb.Chrome.prototype._onUriDispatch = function(evt) {
-  var mainViewUrl;
-  switch (evt.name) {
-    case fu.app.fastweb.UrlMap.Action.SIDE_MENU:
-      if (!goog.isBoolean(this._showMenu)) {
-        this._showMenu = false;
-        this._navigator.go('/home');
-        return;
-      }
-      this._showMenu = !this._showMenu;
-      break;
-
-    default:
-      // Main View.
-      this._showMenu = false;
-      break;
-  }
-
-  this._updateViews();
-};
+///**
+// * @param {fu.events.Event} evt
+// * @private
+// */
+//fu.app.fastweb.Chrome.prototype._onUriDispatch = function(evt) {
+//  var mainViewUrl;
+//  switch (evt.name) {
+//    case fu.app.fastweb.UrlMap.Action.SIDE_MENU:
+//      break;
+//  }
+//  this._updateViews();
+//};
 
 /**
  * @private
  */
 fu.app.fastweb.Chrome.prototype._updateViews = function() {
-  if (this._showMenu) {
+  if (this._menuOpened) {
     this._mainView.moveTo(this._menuView.getMenuWidth(), 0);
   } else {
     this._mainView.moveTo(0, 0);
